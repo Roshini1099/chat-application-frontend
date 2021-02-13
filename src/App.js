@@ -1,12 +1,12 @@
 import React,{ useEffect } from 'react';
 import {Router,Switch,Route} from "react-router-dom";
-import Login from './components/Login/login';
-import Register from "./components/Register/register";
+import Login from './container/Login/login';
+import Register from "./container/Register/register";
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import {history} from './helpers/history';
-import { alertActions } from './actions';
-import Chat from './components/Chat/chat';
+import { alertActions } from './actions/index';
+import Chat from './container/Chat/chat';
 
 const App =()=>{
   const alert = useSelector(state => state.alert);

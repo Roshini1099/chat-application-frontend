@@ -1,6 +1,7 @@
-import { userConstants } from '../constants';
+import { userConstants } from '../actionTypes';
 
-export function registration(state = {}, action) {
+export function registration(state = {}, action)
+{
 	switch (action.type) {
 		case userConstants.REGISTER_REQUEST:
 			return { registering: true };

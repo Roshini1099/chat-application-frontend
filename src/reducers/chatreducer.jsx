@@ -1,12 +1,14 @@
 import { chatConstants } from '../actionTypes';
-let defaultChannelState = {
-	currentchannel: null,
-};
-export function chat(state = defaultChannelState, action) {
-	if (action.type === chatConstants.SET_CHANNEL) {
-		let payload = action.payload;
-		state = { ...payload };
-		return state;
+
+export function registration(state = {}, action) {
+	switch (action.type) {
+		case chatConstants.CHANNEL_CREATE_SUCCESS:
+			return {};
+		case chatConstants.ADD_CHANNEL_MEMBERS_SUCCESS:
+			return {};
+		case chatConstants.ERROR_CHANNEL:
+			return {};
+		default:
+			return state;
 	}
-	return state;
 }

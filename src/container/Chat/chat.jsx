@@ -1,10 +1,17 @@
-import React, { Component } from 'react';
+import React from 'react';
+import ChatSidebar from '../../components/chatSidebar/chatSidebar'
+import ChatBox from '../../components/chatBox/chatBox'
+import './chat.css'
 
-class Chat extends Component {
-	state = {};
-	render() {
-		return <div>This is my chat page</div>;
-	}
+const Chat = () =>
+{
+	return (
+		<div className="chat">
+			<div className="chat__inner">
+				<ChatSidebar />
+				<ChatBox />
+			</div>
+		</div>
+	)
 }
-
 export default Chat;

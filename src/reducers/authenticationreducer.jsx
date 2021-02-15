@@ -14,6 +14,22 @@ export function authentication(state = initialState, action) {
 				loggedIn: true,
 				user: payload.user,
 			};
+		case userConstants.GET_DETAILS_SUCCESS:
+			return {
+				data: payload.data,
+			};
+		case userConstants.GET_DETAILS_ERROR:
+			return {
+				data: payload.data,
+			};
+		case userConstants.EDIT_SUCCESS:
+			return {
+				data: payload.data,
+			};
+		case userConstants.EDIT_ERROR:
+			return {
+				data: payload.data,
+			};
 		case userConstants.LOGIN_FAILURE:
 			return {};
 		case userConstants.LOGOUT:

@@ -1,0 +1,8 @@
+.chat{
+height: 100vh;
+}
+.chat__inner{
+    display: grid;
+    height: 100vh;
+    grid-template-columns: 1fr 4fr;
+}

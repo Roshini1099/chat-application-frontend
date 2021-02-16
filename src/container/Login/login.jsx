@@ -10,7 +10,7 @@ const Login = (props) => {
 	});
 	const [submitted, setSubmitted] = useState(false);
 	const { email, password } = inputs;
-	const loggingIn = useSelector((state) => state.authentication.loggingIn);
+	const loggingIn = useSelector((state) => state.authentication.loggedIn);
 	const dispatch = useDispatch();
 	const location = useLocation();
 
@@ -18,13 +18,18 @@ const Login = (props) => {
 	useEffect(() => {
 		dispatch(userActions.logout());
 	}, []);
+	useEffect(()=>{
+		if(loggingIn){
+			props.history.push('/chat');
+		}
+	},loggingIn);
 
 	function handleChange(e) {
 		const { name, value } = e.target;
 		setInputs((inputs) => ({ ...inputs, [name]: value }));
 	}
 
-	function handleSubmit(e) {
+	function handleSubmit (e) {
 		e.preventDefault();
 
 		setSubmitted(true);
@@ -32,7 +37,7 @@ const Login = (props) => {
 			// get return url from location state or default to home page
 			// const { from } = location.state || { from: { pathname: '/' } };
 			dispatch(userActions.login(email, password));
-			props.history.push('/chat');
+			
 		}
 	}
 

@@ -3,8 +3,10 @@ import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './chatBox.css';
+import { useDispatch, useSelector } from "react-redux";
 
 function ChatBox(props) {
+	const channels = useSelector(state => state.authentication.user.user.channels);
 	return (
 		<div className="chatbox">
 			<div className="chatbox__header">

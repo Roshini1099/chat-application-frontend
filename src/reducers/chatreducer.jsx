@@ -1,6 +1,7 @@
 import { chatConstants } from '../actionTypes';
 
-export function registration(state = {}, action) {
+export function chat(state = {}, action) {
+	const { type, payload } = action;
 	switch (action.type) {
 		case chatConstants.CHANNEL_CREATE_SUCCESS:
 			return {

@@ -1,26 +1,51 @@
 import axios from '../helpers/axios';
 export const chatService = {
 	createChannel,
-	addChannelMembers,
+	joinChannel,
+	searchChannel,
+	Message,
 };
 
 //creating new channel
-function createChannel(channelName, userId) {
+function createChannel(chatName, userId, type, receiverId) {
 	const channel = {
-		channelName,
+		chatName,
 		userId,
+		type,
+		receiverId,
 	};
 	return axios.post('/channel/newchannel', channel).then((response) => {
 		return response.data;
 	});
 }
 
-function addChannelMembers(channelId, userId) {
+function joinChannel(chatId, userId) {
 	const channel = {
-		channelId,
+		chatId,
 		userId,
 	};
-	return axios.post('/channel/join', channel).then((response) => {
+	return axios.post('/channel/joinchannel', channel).then((response) => {
+		return response.data;
+	});
+}
+function searchChannel(searchString) {
+	const data = {
+		searchString,
+	};
+	return axios.get('/channel/search', data).then((response) => {
+		return response.data;
+	});
+}
+
+function Message(text, senderId, chatName, type, index) {
+	const data = {
+		text,
+		senderId,
+		chatName,
+		type,
+		index,
+	};
+	return axios.post('/message', data).then((response) => {
 		return response.data;
 	});
 }

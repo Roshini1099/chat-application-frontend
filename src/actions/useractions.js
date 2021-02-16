@@ -5,7 +5,9 @@ import { history } from '../helpers';
 export const userActions = {
     login,
     logout,
-    register,
+	register,
+	userDetails,
+	editUserDetails
 };
 function login(email, password) {
     return (dispatch) => {
@@ -65,4 +67,54 @@ function register(user) {
     function failure(error) {
         return { type: userConstants.REGISTER_FAILURE, error };
     }
+}
+
+
+
+
+export function userDetails(userId) {
+	return (dispatch) => {
+		try {
+			const response = userService.userDetails(
+				userId
+			);
+			const { data } = response;
+			dispatch({
+				type: userConstants.GET_DETAILS_SUCCESS,
+				payload: data,
+			});
+		} catch (err) {
+			const { data } = err.response;
+			dispatch({
+				type: userConstants.GET_DETAILS_ERROR,
+				payload: data,
+			});
+		}
+	};
+}
+
+
+export function editUserDetails(userId, userName, status, profileImage, phoneNumber) {
+	return (dispatch) => {
+		try {
+			const response = userService.userDetails(
+				userId, 
+				userName, 
+				status, 
+				profileImage, 
+				phoneNumber
+			);
+			const { data } = response;
+			dispatch({
+				type: userConstants.EDIT_SUCCESS,
+				payload: data,
+			});
+		} catch (err) {
+			const { data } = err.response;
+			dispatch({
+				type: userConstants.EDIT_ERROR,
+				payload: data,
+			});
+		}
+	};
 }

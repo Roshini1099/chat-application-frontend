@@ -4,6 +4,8 @@ export const userService = {
 	login,
 	logout,
 	register,
+	userDetails,
+	editUserDetails,
 };
 
 function login(emailId, password) {
@@ -73,5 +75,26 @@ function handleResponse(response) {
 		}
 
 		return data;
+	});
+}
+
+function userDetails(userId) {
+	const data = {
+		userId,
+	};
+	return axios.get('/details', data).then((response) => {
+		return response.data;
+	});
+}
+function editUserDetails(userId, userName, status, profileImage, phoneNumber) {
+	const data = {
+		userId,
+		userName,
+		status,
+		profileImage,
+		phoneNumber,
+	};
+	return axios.get('/edit', data).then((response) => {
+		return response.data;
 	});
 }

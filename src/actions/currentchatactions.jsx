@@ -6,7 +6,6 @@ export const currentchatactions = {
 function currentchat(data) {
 	return (dispatch) => {
 		try {
-            console.log(data)
 			dispatch({
 				type: currentChatConstants.CHAT_SUCCESS,
 				payload: {data},
@@ -14,7 +13,7 @@ function currentchat(data) {
 		} catch (err) {
 			dispatch({
 				type: currentChatConstants.ERROR_CHAT,
-				payload: {data},
+				payload: {err},
 			});
 		}
 	};

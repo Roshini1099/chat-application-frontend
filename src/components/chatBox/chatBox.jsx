@@ -3,9 +3,14 @@ import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './chatBox.css';
+import { chatActions } from '../../actions';
 import { useDispatch, useSelector } from "react-redux";
 function ChatBox(props) {
 	const [message, setMessage] = useState("");
+	const [index, setIndex] = useState(0);
+	const dispatch = useDispatch();
+	const senderId =  useSelector((state) => state.authentication.user.user._id);
+	const senderName =  useSelector((state) => state.authentication.user.user.userName);
 	const messages = useSelector((state) => state.currentChat);
 	if(messages === null){
 		return null
@@ -17,18 +22,17 @@ function ChatBox(props) {
 
 	  function sendMessage (e) {
 		e.preventDefault();
-
-		sendMessage();
-		// if (message) {
-		// 	dispatch(userActions.login());
-		// }
+		if (message) {
+			dispatch(chatActions.message(message,senderId,messages.currentchat._id,"Create",index,senderName));
+			setMessage('');
+		}
 	}
 
 	return (
 		<div className="chatbox">
 			<div className="chatbox__header">
 				<div className="chatbox__header__title">
-					<h2>{messages.currentchat.type == "directMessage" ? messages.currentchat.userName : messages.currentchat.chatName}</h2>
+					<h2>{messages.currentchat.chatName}</h2>
 					{/* replace class online with lastseen. */}
 					<div className="online"></div>
 				</div>
@@ -44,9 +48,9 @@ function ChatBox(props) {
 					<div className="chatbox__body__message__header">
 						<div className="profile"></div>
 						<div className="chatbox__username">
-							<h5>{value.senderId}</h5>
+							<h5>{value.senderName}</h5>
 						</div>
-						<div className="lastseen">{new Date(value.timestamp).toString()}</div>
+						<div className="lastseen">{new Date(value.timestamp).toString().substring(0, 21)}</div>
 					</div>
 					<div className="chatbox__body__message__text">
 						<p>{value.text}</p>
@@ -63,7 +67,7 @@ function ChatBox(props) {
 					<div>
 						<AttachFileIcon />
 					</div>
-					<div onClick={()=>sendMessage}>
+					<div onClick={sendMessage}>
 						<SendIcon style={{ color: 'blue'}} />
 					</div>
 				</div>

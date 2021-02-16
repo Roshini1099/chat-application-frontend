@@ -37,15 +37,20 @@ function searchChannel(searchString) {
 	});
 }
 
-function Message(text, senderId, chatName, type, index) {
+async function Message(text, senderId, chatId, type, index,senderName) {
+	console.log(text);
 	const data = {
 		text,
 		senderId,
-		chatName,
+		chatId,
 		type,
 		index,
+		senderName
 	};
-	return axios.post('/message', data).then((response) => {
+	console.log(data);
+	return await axios.post('/api/message', data).then((response) => {
 		return response.data;
-	});
+	}).catch((err) => {
+		console.log(err)
+	})
 }

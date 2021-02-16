@@ -20,6 +20,7 @@
  align-items: center;
 }
 
+
 .chatbox__header__title > h2{
     font-weight: var(--w-3);
     
@@ -77,3 +78,8 @@
     border: none;
 
 }
+
+.chatbox__footer__input ::placeholder{
+    color: black; 
+    opacity: 0.6;
+    }

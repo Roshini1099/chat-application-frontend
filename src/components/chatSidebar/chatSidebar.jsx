@@ -1,4 +1,5 @@
 import React from 'react';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 import './chatSidebar.css'
 
 function ChatSidebar(props)
@@ -7,6 +8,12 @@ function ChatSidebar(props)
         <div className="sidebar">
             <div className="sidebar__header">
                 <h2>Hyperverge</h2>
+            </div>
+            <div className="sidebar__search">
+                <input placeholder="Add people/channel" />
+                <span>
+                    <AddBoxIcon style={{ "color": "green", "width": "50px", "fontSize": "35px" }} />
+                </span>
             </div>
             <div className="sidebar__channel">
                 <div><h4>Channel</h4></div>

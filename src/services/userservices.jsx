@@ -4,11 +4,11 @@ export const userService = {
 	login,
 	logout,
 	register,
+	userDetails,
+	editUserDetails,
 };
 
-function login(emailId, password)
-{
-
+function login(emailId, password) {
 	/*const requestOptions = {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
@@ -30,48 +30,39 @@ function login(emailId, password)
 		emailId,
 		password,
 	};
-	return axios
-		.post('/api/auth/login', body)
-		.then((response) =>
-		{
-			/*if (response.data.token) {
+	return axios.post('/api/auth/login', body).then((response) => {
+		/*if (response.data.token) {
 				localStorage.setItem('user', JSON.stringify(response.data));
-			}
-			return response.data;*/
-			console.log(response);
-		});
+			}*/
+		return response.data;
+		localStorage.setItem('user', JSON.stringify(response.data));
+		console.log(response);
+	});
 }
 
-function logout()
-{
+function logout() {
 	// remove user from local storage to log user out
 	localStorage.removeItem('user');
 }
 
-function register(user)
-{
+function register(user) {
 	// console.log(emailId.emailId, password);
 	const body = {
 		emailId: user.emailId,
 		password: user.password,
 		userName: user.userName,
 	};
-	return axios
-		.post('/api/auth/register', body)
-		.then((response) =>
-		{
-			/*if (response.data.token) {
+	return axios.post('/api/auth/register', body).then((response) => {
+		/*if (response.data.token) {
 				localStorage.setItem('user', JSON.stringify(response.data));
 			}
 			return response.data;*/
-			console.log(response);
-		});
+		console.log(response);
+	});
 }
 
-function handleResponse(response)
-{
-	return response.text().then((text) =>
-	{
+function handleResponse(response) {
+	return response.text().then((text) => {
 		const data = text && JSON.parse(text);
 		if (!response.ok) {
 			if (response.status === 401) {
@@ -84,5 +75,26 @@ function handleResponse(response)
 		}
 
 		return data;
+	});
+}
+
+function userDetails(userId) {
+	const data = {
+		userId,
+	};
+	return axios.get('/details', data).then((response) => {
+		return response.data;
+	});
+}
+function editUserDetails(userId, userName, status, profileImage, phoneNumber) {
+	const data = {
+		userId,
+		userName,
+		status,
+		profileImage,
+		phoneNumber,
+	};
+	return axios.get('/edit', data).then((response) => {
+		return response.data;
 	});
 }

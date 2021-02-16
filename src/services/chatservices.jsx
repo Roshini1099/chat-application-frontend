@@ -14,7 +14,7 @@ function createChannel(chatName, userId, type, receiverId) {
 		type,
 		receiverId,
 	};
-	return axios.post('/channel/newchannel', channel).then((response) => {
+	return axios.post('/api/channel/newchannel', channel).then((response) => {
 		return response.data;
 	});
 }
@@ -24,7 +24,7 @@ function joinChannel(chatId, userId) {
 		chatId,
 		userId,
 	};
-	return axios.post('/channel/joinchannel', channel).then((response) => {
+	return axios.post('/api/channel/joinchannel', channel).then((response) => {
 		return response.data;
 	});
 }
@@ -32,7 +32,7 @@ function searchChannel(searchString) {
 	const data = {
 		searchString,
 	};
-	return axios.get('/channel/search', data).then((response) => {
+	return axios.get('/api/channel/search', data).then((response) => {
 		return response.data;
 	});
 }
@@ -45,7 +45,7 @@ function Message(text, senderId, chatName, type, index) {
 		type,
 		index,
 	};
-	return axios.post('/message', data).then((response) => {
+	return axios.post('/api/message', data).then((response) => {
 		return response.data;
 	});
 }

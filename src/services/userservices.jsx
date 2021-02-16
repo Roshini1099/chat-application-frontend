@@ -82,7 +82,7 @@ function userDetails(userId) {
 	const data = {
 		userId,
 	};
-	return axios.get('/details', data).then((response) => {
+	return axios.get('/api/user/details', data).then((response) => {
 		return response.data;
 	});
 }
@@ -94,7 +94,7 @@ function editUserDetails(userId, userName, status, profileImage, phoneNumber) {
 		profileImage,
 		phoneNumber,
 	};
-	return axios.get('/edit', data).then((response) => {
+	return axios.get('/api/user/edit', data).then((response) => {
 		return response.data;
 	});
 }

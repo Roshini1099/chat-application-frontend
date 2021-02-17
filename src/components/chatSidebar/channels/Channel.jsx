@@ -56,10 +56,16 @@ function Channels() {
 
 	return (
 		<>
-			<Menu.Menu style={{ marginTop: '40px' }}>
-				<Menu.Item>
+			<Menu.Menu style={{ marginTop: '40px', marginLeft: '15px' }}>
+				<Menu.Item style={{ fontSize: '20px' }}>
+					<span>
+						<Icon name="exchange" /> Channels
+					</span>
+				</Menu.Item>
+
+				<Menu.Item style={{ marginTop: '20px' }}>
 					<span className="clickable" onClick={openModal}>
-						<Icon name="add" onClick={openModal} /> ADD
+						<Icon name="add" onClick={openModal} /> ADD CHANNEL
 					</span>
 				</Menu.Item>
 			</Menu.Menu>

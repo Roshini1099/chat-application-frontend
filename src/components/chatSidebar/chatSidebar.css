@@ -8,6 +8,18 @@
 	margin: var(--p-2) 0;
 }
 
+.sidebar__search > input {
+	background-color: var(--color-white);
+	color: black;
+	margin-top: var(--p-4);
+	margin-left: var(--p-2);
+}
+
+.sidebar__search ::placeholder {
+	color: black;
+	opacity: 0.6;
+}
+
 .sidebar__channel {
 	margin: calc(var(--p-4) * 2) 0;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 import './chatSidebar.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentchatactions } from '../../actions';
@@ -20,21 +21,24 @@ function ChatSidebar(props) {
 		dispatch(currentchatactions.currentchat(chat));
 	}
 	function currentChatDirectMessage(chat, receiver) {
+		console.log('reciever', receiver);
 		let data = {
 			...chat,
-			...receiver,
+			recieverId: receiver._id,
+			recieverName: receiver.userName,
 		};
-		dispatch(currentchatactions.currentchat(chat));
+		dispatch(currentchatactions.currentchat(data));
 	}
+
 	return (
 		<div className="sidebar">
 			<div className="sidebar__header">
-				<Userinfo />
+				<h2>{userName}</h2>
 			</div>
+
+			<Channels />
+
 			<div className="sidebar__channel">
-				<div>
-					<h4>Channel</h4>
-				</div>
 				<div className="sidebar__channel__list">
 					{channels.map((value, index) => (
 						<div onClick={() => currentChatChannel(value.chatId)}>
@@ -42,7 +46,6 @@ function ChatSidebar(props) {
 						</div>
 					))}
 				</div>
-				<Channels />
 			</div>
 			<div className="sidebar__channel">
 				<div>

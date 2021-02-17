@@ -37,6 +37,7 @@ function joinChannel(chatId, userId) {
 		try {
 			const response = chatService.joinChannel(chatId, userId);
 			const { data } = response;
+			//create an event when a user joins new channel or DM
 			dispatch({
 				type: chatConstants.JOIN_CHANNEL_SUCCESS,
 				payload: data,
@@ -50,7 +51,7 @@ function joinChannel(chatId, userId) {
 		}
 	};
 }
-function searchChannel(searchString) {
+export function searchChannel(searchString) {
 	return (dispatch) => {
 		try {
 			const response = chatService.searchChannel(searchString);
@@ -74,6 +75,26 @@ function message(text, senderId, chatId, type, index, senderName) {
 		chatService
 			.Message(text, senderId, chatId, type, index, senderName)
 			.then(async (data) => {
+				// if(messages){
+				// 	console.log(messages.currentchat._id,messages.currentchat.type);
+				// 	let type = messages.currentchat.type;
+				// 	if(type === "directMessage"){
+				// 		console.log(user.directMessage);
+				// 		let directMessage = user.directMessage;
+				// 		for(var i=0;i<directMessage.length;i++){
+				// 			if(directMessage[i].chatId._id === messages.currentchat._id)
+				// 			{
+				// 				console.log(directMessage[i].chatId, messages.currentchat)
+				// 			}
+				// 		}
+				// 	}
+				// 	else{
+				// 		console.log(user.channel);
+				// 	}
+				// 	}
+				// dispatch({
+
+				// })
 				dispatch({
 					type: currentChatConstants.CHAT_SUCCESS,
 					payload: { data },

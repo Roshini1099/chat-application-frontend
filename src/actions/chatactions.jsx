@@ -1,6 +1,8 @@
-import { chatConstants } from '../actionTypes';
+import { currentChatConstants, chatConstants } from '../actionTypes';
 import { chatService } from '../services';
-
+export const chatActions = {
+    message
+};
 export function createChannel(chatName, userId, type, receiverId) {
 	return (dispatch) => {
 		try {
@@ -61,27 +63,30 @@ export function searchChannel(searchString) {
 		}
 	};
 }
-export function message(text, senderId, chatName, type, index) {
+
+function message(text, senderId, chatId, type, index,senderName) {
 	return (dispatch) => {
-		try {
-			const response = chatService.message(
+			chatService.Message(
 				text,
 				senderId,
-				chatName,
+				chatId,
 				type,
-				index
-			);
-			const { data } = response;
-			dispatch({
-				type: chatConstants.MESSAGE_GET_SUCCESS,
-				payload: data,
-			});
-		} catch (err) {
-			const { data } = err.response;
-			dispatch({
-				type: chatConstants.ERROR_CHANNEL,
-				payload: data,
-			});
+				index,
+				senderName
+			).then(
+				async (data) => {
+					 dispatch({
+						type: currentChatConstants.CHAT_SUCCESS,
+						 payload: {data},
+					   });
+				 }
+			).catch (
+				async (err) =>{
+					dispatch({
+						type: currentChatConstants.ERROR_CHAT,
+						payload: {err},
+					});
+				}
+			)
 		}
-	};
-}
+	}

@@ -22,7 +22,7 @@ function ChatSidebar(props)
             recieverId: receiver._id,
             recieverName: receiver.userName,
         };
-        dispatch(currentchatactions.currentchat(chat));
+        dispatch(currentchatactions.currentchat(data));
     }
 
     return (

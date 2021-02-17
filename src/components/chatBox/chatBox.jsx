@@ -90,8 +90,7 @@ function ChatBox(props)
 		<div className="chatbox">
 			<div className="chatbox__header">
 				<div className="chatbox__header__title">
-					<h2>{messages.currentchat.chatName}</h2>
-
+					{messages.currentchat.type === "directMessage" ? <h2>{messages.currentchat.recieverName}</h2> : <h2>{messages.currentchat.chatName}</h2> }
 					{/* replace class online with lastseen. */}
 					<div className="online"></div>
 				</div>

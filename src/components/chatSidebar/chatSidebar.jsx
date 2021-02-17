@@ -2,22 +2,27 @@ import React from 'react';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import './chatSidebar.css'
 import { useDispatch, useSelector } from "react-redux";
-import {currentchatactions } from '../../actions'
-function ChatSidebar(props) {
+import { currentchatactions } from '../../actions'
+function ChatSidebar(props)
+{
     const userName = useSelector((state) => state.authentication.user.user.userName);
     const channels = useSelector(state => state.authentication.user.user.channels);
     const directMessage = useSelector(state => state.authentication.user.user.directMessage);
-	const dispatch = useDispatch();
-    function currentChatChannel(chat) {
+    const dispatch = useDispatch();
+    function currentChatChannel(chat)
+    {
         console.log(chat);
-			dispatch(currentchatactions.currentchat(chat));
+        dispatch(currentchatactions.currentchat(chat));
     }
-    function currentChatDirectMessage(chat,receiver) {
+    function currentChatDirectMessage(chat, receiver)
+    {
+        console.log('reciever', receiver)
         let data = {
             ...chat,
-            ...receiver
+            recieverId: receiver._id,
+            recieverName: receiver.userName,
         };
-			dispatch(currentchatactions.currentchat(chat));
+        dispatch(currentchatactions.currentchat(data));
     }
     return (
         <div className="sidebar">
@@ -34,7 +39,7 @@ function ChatSidebar(props) {
                 <div><h4>Channel</h4></div>
                 <div className="sidebar__channel__list">
                     {channels.map((value, index) => (
-                        <div onClick={()=>currentChatChannel(value.chatId)}>
+                        <div onClick={() => currentChatChannel(value.chatId)}>
                             <h5>{value.chatId.chatName}</h5>
                         </div>
                     ))}
@@ -45,7 +50,7 @@ function ChatSidebar(props) {
                 <div><h4>Direct Message</h4></div>
                 <div className="sidebar__channel__list">
                     {directMessage.map((value, index) => (
-                       <div onClick={()=>currentChatDirectMessage(value.chatId,value.receiverId)}>
+                        <div onClick={() => currentChatDirectMessage(value.chatId, value.receiverId)}>
                             <div className="profile">
 
                             </div>

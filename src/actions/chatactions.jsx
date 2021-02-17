@@ -69,38 +69,33 @@ export function searchChannel(searchString)
 		}
 	};
 }
-export function message(text, senderId, chatName, type, index)
+export function message(text, senderId, chatId, type, index, senderName)
 {
 	return (dispatch) =>
 	{
-		try {
-			const response = chatService.message(
-				text,
-				senderId,
-				chatId,
-				type,
-				index,
-				senderName
-			).then(
-				async (data) =>
-				{
-					dispatch({
-						type: currentChatConstants.CHAT_SUCCESS,
-						payload: { data },
-					});
-				}
-			).catch(
-				async (err) =>
-				{
-					dispatch({
-						type: currentChatConstants.ERROR_CHAT,
-						payload: { err },
-					});
-				}
-			)
-		}
-		catch (err) {
-			console.log('error in [chataction.js]  message')
-		}
+		const response = chatService.Message(
+			text,
+			senderId,
+			chatId,
+			type,
+			index,
+			senderName
+		).then(
+			async (data) =>
+			{
+				dispatch({
+					type: currentChatConstants.CHAT_SUCCESS,
+					payload: { data },
+				});
+			}
+		).catch(
+			async (err) =>
+			{
+				dispatch({
+					type: currentChatConstants.ERROR_CHAT,
+					payload: { err },
+				});
+			}
+		)
 	}
 }

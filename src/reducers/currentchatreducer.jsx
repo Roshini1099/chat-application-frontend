@@ -7,10 +7,18 @@ export function currentChat(state = null, action)
 		case currentChatConstants.CHAT_SUCCESS:
 			return {
 				currentchat: payload.data,
+				typing: false
 			};
 		case currentChatConstants.ERROR_CHAT:
 			return {
 				currentchat: payload.data,
+				typing: false,
+			};
+		case currentChatConstants.TYPING:
+			return {
+				...state,
+				typing: payload.typing,
+				typinguser: payload.userName
 			};
 		default:
 			return state;

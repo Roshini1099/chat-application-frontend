@@ -1,17 +1,22 @@
 import io from 'socket.io-client';
 import {store} from '../helpers/store'
-
+import {currentchatactions} from '../actions/currentchatactions'
 var socket = null;
+var times;
 const PATH = ''
-export const initialise = ()=>{
+export const initialise = (userId)=>{
+    // const store  = store.getState();
+    console.log('initalise',userId)
     console.log('inside initalise')
     let user = JSON.parse(localStorage.getItem('user'));
     if(socket===null || socket.connected==false)
     {
         socket= io('http://localhost:3333',{
             auth:{
-                token: true
-            }
+                token: true,
+                userId:userId
+            },
+            reconnection: true,
           });
     }
       console.log(socket)
@@ -33,8 +38,20 @@ const networkError= ()=>{
 }
 
 const alllisteners = ()=>{
-    socket.on('typing',()=>{
-        //dispatch the function.
+    socket.on('typing',(payload)=>{
+        let state = store.getState();
+        if(state.currentChat.currentchat._id==payload.chatId)
+        {
+            console.log(true)
+            store.dispatch(currentchatactions.typing(payload.isTyping,payload.userName))
+            clearTimeout(times);
+            times=setTimeout(()=>{
+                console.log('timeout called')
+                store.dispatch(currentchatactions.typing(false,null))
+            },800)
+
+        }
+        
     })
 
     socket.on('getnewchat',(payload)=>{
@@ -53,8 +70,9 @@ const alllisteners = ()=>{
         //call update chat api
     })
 }
-const typing = (userId)=>{
-
+export const typing = (payload)=>{
+    console.log('emitting the socket event typing',payload)
+    socket.emit('typing',payload)
 }
 const seen = ()=>{
     // socket.emit('seen',payload);

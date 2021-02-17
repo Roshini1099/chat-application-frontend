@@ -3,7 +3,9 @@ import {store} from '../helpers/store'
 import {currentchatactions} from '../actions/currentchatactions'
 var socket = null;
 var times;
-const PATH = ''
+const PATH = '';
+
+
 export const initialise = (userId)=>{
     // const store  = store.getState();
     console.log('initalise',userId)
@@ -46,7 +48,6 @@ const alllisteners = ()=>{
             store.dispatch(currentchatactions.typing(payload.isTyping,payload.userName))
             clearTimeout(times);
             times=setTimeout(()=>{
-                console.log('timeout called')
                 store.dispatch(currentchatactions.typing(false,null))
             },800)
 
@@ -55,7 +56,11 @@ const alllisteners = ()=>{
     })
 
     socket.on('getnewchat',(payload)=>{
-        //api call for getting new chats
+        let user = store.getState();
+        console.log(user.authentication.user)
+        store.dispatch(currentchatactions.fetchChat(payload.chatId,user.authentication.user));
+        console.log('check new chat');
+
     })
 
     socket.on('delivered',()=>{
@@ -78,8 +83,8 @@ const seen = ()=>{
     // socket.emit('seen',payload);
 }
 
-const newMessage = ()=>{
-    // socket.emit('getnewchat',payload);
+export const newMessage = (payload)=>{
+    socket.emit('getnewchat',payload);
 }
 
 const delivered = ()=>{

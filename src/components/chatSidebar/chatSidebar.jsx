@@ -17,7 +17,8 @@ function ChatSidebar(props) {
             ...receiver
         };
 			dispatch(currentchatactions.currentchat(chat));
-    }
+    }  
+      
     return (
         <div className="sidebar">
             <div className="sidebar__header">

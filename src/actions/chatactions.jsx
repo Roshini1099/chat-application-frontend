@@ -1,10 +1,10 @@
 import { currentChatConstants, chatConstants } from '../actionTypes';
 import { chatService } from '../services';
-export const chatActions = {
-    message
-};
-export function createChannel(chatName, userId, type, receiverId) {
-	return (dispatch) => {
+
+export function createChannel(chatName, userId, type, receiverId)
+{
+	return (dispatch) =>
+	{
 		try {
 			const response = chatService.createChannel(
 				chatName,
@@ -17,6 +17,7 @@ export function createChannel(chatName, userId, type, receiverId) {
 				type: chatConstants.CHANNEL_CREATE_SUCCESS,
 				payload: data,
 			});
+
 		} catch (err) {
 			const { data } = err.response;
 			dispatch({
@@ -27,11 +28,14 @@ export function createChannel(chatName, userId, type, receiverId) {
 	};
 }
 
-export function joinChannel(chatId, userId) {
-	return (dispatch) => {
+export function joinChannel(chatId, userId)
+{
+	return (dispatch) =>
+	{
 		try {
 			const response = chatService.joinChannel(chatId, userId);
 			const { data } = response;
+			//create an event when a user joins new channel or DM
 			dispatch({
 				type: chatConstants.JOIN_CHANNEL_SUCCESS,
 				payload: data,
@@ -45,8 +49,10 @@ export function joinChannel(chatId, userId) {
 		}
 	};
 }
-export function searchChannel(searchString) {
-	return (dispatch) => {
+export function searchChannel(searchString)
+{
+	return (dispatch) =>
+	{
 		try {
 			const response = chatService.searchChannel(searchString);
 			const { data } = response;
@@ -63,10 +69,12 @@ export function searchChannel(searchString) {
 		}
 	};
 }
-
-function message(text, senderId, chatId, type, index,senderName) {
-	return (dispatch) => {
-			chatService.Message(
+export function message(text, senderId, chatName, type, index)
+{
+	return (dispatch) =>
+	{
+		try {
+			const response = chatService.message(
 				text,
 				senderId,
 				chatId,
@@ -74,19 +82,25 @@ function message(text, senderId, chatId, type, index,senderName) {
 				index,
 				senderName
 			).then(
-				async (data) => {
-					 dispatch({
+				async (data) =>
+				{
+					dispatch({
 						type: currentChatConstants.CHAT_SUCCESS,
-						 payload: {data},
-					   });
-				 }
-			).catch (
-				async (err) =>{
+						payload: { data },
+					});
+				}
+			).catch(
+				async (err) =>
+				{
 					dispatch({
 						type: currentChatConstants.ERROR_CHAT,
-						payload: {err},
+						payload: { err },
 					});
 				}
 			)
 		}
+		catch (err) {
+			console.log('error in [chataction.js]  message')
+		}
 	}
+}

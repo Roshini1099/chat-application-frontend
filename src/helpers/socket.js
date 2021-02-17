@@ -5,6 +5,7 @@ var socket = null;
 const PATH = ''
 export const initialise = ()=>{
     console.log('inside initalise')
+    let user = JSON.parse(localStorage.getItem('user'));
     if(socket===null || socket.connected==false)
     {
         socket= io('http://localhost:3333',{

@@ -8,6 +8,7 @@ import { typing } from '../../helpers/socket'
 import { chatActions } from '../../actions';
 import { useDispatch, useSelector } from "react-redux";
 import { currentChatConstants, chatConstants } from '../../actionTypes';
+import { currentchatactions } from '../../actions/currentchatactions'
 
 function ChatBox(props)
 {
@@ -16,7 +17,7 @@ function ChatBox(props)
 	const dispatch = useDispatch();
 	const senderId = useSelector((state) => state.authentication.user.user._id);
 	const senderName = useSelector((state) => state.authentication.user.user.userName);
-	const user = useSelector((state) => state.authentication.user.user);
+	const user = useSelector((state) => state.authentication.user);
 	const messages = useSelector((state) => state.currentChat);
 	if (messages === null) {
 		return null
@@ -32,53 +33,48 @@ function ChatBox(props)
 		e.preventDefault();
 		const data = {
 			text: message,
+			recieverId: messages.currentchat.recieverId,
 			senderId,
 			chatId: messages.currentchat._id,
 			type: "Create",
 			index,
-			senderName
-		};
-		console.log(data);
-		await axios.post('/api/message', data).then(async (response) =>
-		{
-			setMessage('');
-			dispatch({
-				type: currentChatConstants.CHAT_SUCCESS,
-				payload: { data: response.data },
-			});
-			await currentMessage(response.data);
+			senderName,
 
-		}).catch((err) =>
-		{
-			console.log(err)
-		})
+		};
+		// console.log(data);
+		if (message === '')
+			return;
+		dispatch(currentchatactions.addChat(data, user))
+		setMessage('');
+
+
 	}
-	function currentMessage(data)
-	{
-		let type = data.type;
-		if (type === "directMessage") {
-			let directMessage = user.directMessage
-			for (var i = 0; i < directMessage.length; i++) {
-				if (directMessage[i].chatId._id === data._id) {
-					directMessage[i].chatId = {
-						...directMessage[i].chatId,
-						...data
-					}
-				}
-			}
-		}
-		else {
-			let channels = user.channels
-			for (var i = 0; i < channels.length; i++) {
-				if (channels[i].chatId._id === data._id) {
-					channels[i].chatId = {
-						...channels[i].chatId,
-						...data
-					}
-				}
-			}
-		}
-	}
+	// function currentMessage(data)
+	// {
+	// 	let type = data.type;
+	// 	if (type === "directMessage") {
+	// 		let directMessage = user.directMessage
+	// 		for (var i = 0; i < directMessage.length; i++) {
+	// 			if (directMessage[i].chatId._id === data._id) {
+	// 				directMessage[i].chatId = {
+	// 					...directMessage[i].chatId,
+	// 					...data
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// 	else {
+	// 		let channels = user.channels
+	// 		for (var i = 0; i < channels.length; i++) {
+	// 			if (channels[i].chatId._id === data._id) {
+	// 				channels[i].chatId = {
+	// 					...channels[i].chatId,
+	// 					...data
+	// 				}
+	// 			}
+	// 		}
+	// 	}
+	// }
 
 	const typingHandler = () =>
 	{
@@ -90,7 +86,7 @@ function ChatBox(props)
 		<div className="chatbox">
 			<div className="chatbox__header">
 				<div className="chatbox__header__title">
-					{messages.currentchat.type === "directMessage" ? <h2>{messages.currentchat.recieverName}</h2> : <h2>{messages.currentchat.chatName}</h2> }
+					{messages.currentchat.type === "directMessage" ? <h2>{messages.currentchat.recieverName}</h2> : <h2>{messages.currentchat.chatName}</h2>}
 					{/* replace class online with lastseen. */}
 					<div className="online"></div>
 				</div>

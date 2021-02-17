@@ -2,7 +2,7 @@ import { authHeader } from '../helpers/authheader';
 import axios from '../helpers/axios';
 export const userService = {
 	login,
-	logout,
+
 	register,
 	userDetails,
 	editUserDetails,
@@ -31,18 +31,14 @@ function login(emailId, password) {
 		password,
 	};
 	return axios.post('/api/auth/login', body).then((response) => {
-		/*if (response.data.token) {
-				localStorage.setItem('user', JSON.stringify(response.data));
-			}*/
+		if (response.data.token) {
+			localStorage.setItem('user', JSON.stringify(response.data));
+		}
+		// localStorage.setItem('usertoken', JSON.stringify(response.data));
 		return response.data;
-		localStorage.setItem('user', JSON.stringify(response.data));
+
 		console.log(response);
 	});
-}
-
-function logout() {
-	// remove user from local storage to log user out
-	localStorage.removeItem('user');
 }
 
 function register(user) {
@@ -61,7 +57,7 @@ function register(user) {
 	});
 }
 
-function handleResponse(response) {
+/*function handleResponse(response) {
 	return response.text().then((text) => {
 		const data = text && JSON.parse(text);
 		if (!response.ok) {
@@ -77,12 +73,12 @@ function handleResponse(response) {
 		return data;
 	});
 }
-
+*/
 function userDetails(userId) {
 	const data = {
 		userId,
 	};
-	return axios.get('/details', data).then((response) => {
+	return axios.get('/api/user/details', data).then((response) => {
 		return response.data;
 	});
 }
@@ -94,7 +90,7 @@ function editUserDetails(userId, userName, status, profileImage, phoneNumber) {
 		profileImage,
 		phoneNumber,
 	};
-	return axios.get('/edit', data).then((response) => {
+	return axios.get('/api/user/edit', data).then((response) => {
 		return response.data;
 	});
 }

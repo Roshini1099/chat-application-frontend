@@ -4,7 +4,7 @@ import { alertActions } from '.';
 import { history } from '../helpers';
 export const userActions = {
     login,
-    logout,
+    
 	register,
 	userDetails,
 	editUserDetails
@@ -39,10 +39,7 @@ function login(email, password) {
         return { type: userConstants.LOGIN_FAILURE, error };
     }
 }
-function logout() {
-    userService.logout();
-    return { type: userConstants.LOGOUT };
-}
+
 function register(user) {
     return (dispatch) => {
         //dispatch(request(user));

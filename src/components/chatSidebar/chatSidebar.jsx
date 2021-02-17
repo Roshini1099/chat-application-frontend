@@ -1,61 +1,70 @@
 import React from 'react';
+import AddBoxIcon from '@material-ui/icons/AddBox';
 import './chatSidebar.css';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { currentchatactions } from '../../actions';
+import Channels from './channels/Channel';
+import Userinfo from './userinfo/Userinfo';
 function ChatSidebar(props) {
+	const userName = useSelector(
+		(state) => state.authentication.user.user.userName
+	);
+	const channels = useSelector(
+		(state) => state.authentication.user.user.channels
+	);
+	const directMessage = useSelector(
+		(state) => state.authentication.user.user.directMessage
+	);
+	const dispatch = useDispatch();
+	function currentChatChannel(chat) {
+		console.log(chat);
+		dispatch(currentchatactions.currentchat(chat));
+	}
+	function currentChatDirectMessage(chat, receiver) {
+		console.log('reciever', receiver);
+		let data = {
+			...chat,
+			recieverId: receiver._id,
+			recieverName: receiver.userName,
+		};
+		dispatch(currentchatactions.currentchat(data));
+	}
+
 	return (
 		<div className="sidebar">
-			<div className="sidebar_user-profile">
-				<div className="sidebar_avatar">
-					<img src="https://www.flaticon.com/svg/static/icons/svg/2919/2919600.svg" />
-				</div>
-				<div>
-					<h3>Roshini</h3>
-				</div>
-				<div
-					style={{
-						marginLeft: 160,
-						marginTop: 0.1,
-						cursor: 'pointer',
-					}}
-					//add logout button here
-				>
-					<img
-						src="https://www.flaticon.com/svg/static/icons/svg/2150/2150480.svg"
-						height="25"
-						// onClick={Logout}
-					/>
-				</div>
+			<div className="sidebar__header">
+				<h2>{userName}</h2>
 			</div>
-			<hr className="sidebar-spacer" />
+
+			<Channels />
 
 			<div className="sidebar__channel">
-				<div className="sidebar_channel_header">
-					<h5>Channel</h5>
+				<div className="sidebar__channel__list">
+					{channels.map((value, index) => (
+						<div onClick={() => currentChatChannel(value.chatId)}>
+							<h5>{value.chatId.chatName}</h5>
+						</div>
+					))}
 				</div>
-				<ul className="sidebar_channels-list">
-					<div className="profile">
-						<li>friend1</li>
-						<li>friend2</li>
-					</div>
-				</ul>
 			</div>
 			<div className="sidebar__channel">
 				<div>
 					<h4>Direct Message</h4>
 				</div>
 				<div className="sidebar__channel__list">
-					<div>
-						<div className="profile"></div>
-						<h5>Hyperverge</h5>
-					</div>
-					<div>
-						<div className="profile"></div>
-						<h5>Hyperverge</h5>
-					</div>
-					<div>
-						<div className="profile"></div>
-						<h5>Hyperverge</h5>
-					</div>
+					{directMessage.map((value, index) => (
+						<div
+							onClick={() =>
+								currentChatDirectMessage(
+									value.chatId,
+									value.receiverId
+								)
+							}
+						>
+							<div className="profile"></div>
+							<h5>{value.receiverId.userName}</h5>
+						</div>
+					))}
 				</div>
 			</div>
 		</div>

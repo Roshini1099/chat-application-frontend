@@ -7,14 +7,14 @@ export const chatService = {
 };
 
 //creating new channel
-function createChannel(chatName, userId, type, receiverId) {
+function createChannel(chatName, userId, type) {
 	const channel = {
 		chatName,
 		userId,
 		type,
-		receiverId,
 	};
-	return axios.post('/api/channel/newchannel', channel).then((response) => {
+
+	return axios.post('/api/channel/newChannel', channel).then((response) => {
 		return response.data;
 	});
 }
@@ -37,15 +37,23 @@ function searchChannel(searchString) {
 	});
 }
 
-function Message(text, senderId, chatName, type, index) {
+async function Message(text, senderId, chatId, type, index, senderName) {
+	console.log(text);
 	const data = {
 		text,
 		senderId,
-		chatName,
+		chatId,
 		type,
 		index,
+		senderName,
 	};
-	return axios.post('/api/message', data).then((response) => {
-		return response.data;
-	});
+	console.log(data);
+	return await axios
+		.post('/api/message', data)
+		.then((response) => {
+			return response.data;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 }

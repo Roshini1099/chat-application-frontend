@@ -6,49 +6,20 @@
 .sidebar__header {
 	text-align: center;
 	margin: var(--p-2) 0;
-	display: flex;
-}
-.sidebar_user-profile {
-	display: flex;
-	align-items: center;
-	color: #fff;
-	font-weight: 700;
-	padding: 10px 15px;
-}
-.sidebar_avatar img {
-	height: 40px;
-	margin-right: 20px;
-}
-sidebar_channels-list {
-	list-style-type: none;
-	margin: 0;
-	padding: 0;
-}
-.sidebar_channels-list li a {
-	color: rgb(207, 195, 207);
-	text-decoration: none;
-}
-.sidebar_channels-list li {
-	padding: 7px 15px;
-}
-.sidebar_channels-list li:hover {
-	background: var(--color-secondary);
-	cursor: pointer;
-}
-.sidebar-spacer {
-	border: 0;
-	height: 0;
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-	margin: 0;
 }
 
-.sidebar_channel_header {
-	font-weight: 500;
-	color: rgb(207, 195, 207);
-	font-size: 15px;
-	padding: 10px 15px;
+.sidebar__search > input {
+	background-color: var(--color-white);
+	color: black;
+	margin-top: var(--p-4);
+	margin-left: var(--p-2);
 }
+
+.sidebar__search ::placeholder {
+	color: black;
+	opacity: 0.6;
+}
+
 .sidebar__channel {
 	margin: calc(var(--p-4) * 2) 0;
 }
@@ -72,4 +43,15 @@ sidebar_channels-list {
 
 .sidebar__channel__list :hover {
 	background: var(--color-secondary);
+}
+.ui.menu .item {
+	color: rgb(180, 180, 185) !important;
+}
+
+.clickable:hover {
+	cursor: pointer;
+}
+
+.ui.menu .item.active {
+	background: #1164a3 !important;
 }

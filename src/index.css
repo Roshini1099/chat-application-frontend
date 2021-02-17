@@ -60,3 +60,18 @@ code {
 ::placeholder{
   color: black;
 }
+
+.typing{
+  color: var(--color--green);
+  font-style: italic;
+}
+
+.status{
+  display: flex;
+}
+
+.status p{
+  font-size: 10px;
+  font-style: italic;
+  margin-left: var(--p-1);
+}

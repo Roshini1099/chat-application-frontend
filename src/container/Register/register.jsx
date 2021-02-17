@@ -14,10 +14,6 @@ const Register = (props) => {
 	const registering = useSelector((state) => state.registration.registering);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(userActions.logout());
-	}, []);
-
 	function handleChange(e) {
 		const { name, value } = e.target;
 		setUser((user) => ({ ...user, [name]: value }));

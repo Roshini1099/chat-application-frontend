@@ -14,22 +14,18 @@ const Login = (props) => {
 	const dispatch = useDispatch();
 	const location = useLocation();
 
-	// reset login status
 	useEffect(() => {
-		dispatch(userActions.logout());
-	}, []);
-	useEffect(()=>{
-		if(loggingIn){
+		if (loggingIn) {
 			props.history.push('/chat');
 		}
-	},loggingIn);
+	}, loggingIn);
 
 	function handleChange(e) {
 		const { name, value } = e.target;
 		setInputs((inputs) => ({ ...inputs, [name]: value }));
 	}
 
-	function handleSubmit (e) {
+	function handleSubmit(e) {
 		e.preventDefault();
 
 		setSubmitted(true);
@@ -37,7 +33,6 @@ const Login = (props) => {
 			// get return url from location state or default to home page
 			// const { from } = location.state || { from: { pathname: '/' } };
 			dispatch(userActions.login(email, password));
-			
 		}
 	}
 

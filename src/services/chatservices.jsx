@@ -7,14 +7,14 @@ export const chatService = {
 };
 
 //creating new channel
-function createChannel(chatName, userId, type, receiverId) {
+function createChannel(chatName, userId, type) {
 	const channel = {
 		chatName,
 		userId,
 		type,
-		receiverId,
 	};
-	return axios.post('/channel/newchannel', channel).then((response) => {
+
+	return axios.post('/api/channel/newChannel', channel).then((response) => {
 		return response.data;
 	});
 }
@@ -24,7 +24,7 @@ function joinChannel(chatId, userId) {
 		chatId,
 		userId,
 	};
-	return axios.post('/channel/joinchannel', channel).then((response) => {
+	return axios.post('/api/channel/joinchannel', channel).then((response) => {
 		return response.data;
 	});
 }
@@ -32,12 +32,12 @@ function searchChannel(searchString) {
 	const data = {
 		searchString,
 	};
-	return axios.get('/channel/search', data).then((response) => {
+	return axios.get('/api/channel/search', data).then((response) => {
 		return response.data;
 	});
 }
 
-async function Message(text, senderId, chatId, type, index,senderName) {
+async function Message(text, senderId, chatId, type, index, senderName) {
 	console.log(text);
 	const data = {
 		text,
@@ -45,12 +45,15 @@ async function Message(text, senderId, chatId, type, index,senderName) {
 		chatId,
 		type,
 		index,
-		senderName
+		senderName,
 	};
 	console.log(data);
-	return await axios.post('/api/message', data).then((response) => {
-		return response.data;
-	}).catch((err) => {
-		console.log(err)
-	})
+	return await axios
+		.post('/api/message', data)
+		.then((response) => {
+			return response.data;
+		})
+		.catch((err) => {
+			console.log(err);
+		});
 }

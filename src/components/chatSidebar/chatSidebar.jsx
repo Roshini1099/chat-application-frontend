@@ -22,8 +22,9 @@ function ChatSidebar(props)
             recieverId: receiver._id,
             recieverName: receiver.userName,
         };
-        dispatch(currentchatactions.currentchat(data));
+        dispatch(currentchatactions.currentchat(chat));
     }
+
     return (
         <div className="sidebar">
             <div className="sidebar__header">

@@ -69,11 +69,12 @@ export function searchChannel(searchString)
 		}
 	};
 }
-export function message(text, senderId, chatId, type, index, senderName)
+
+function message(text, senderId, chatId, type, index, senderName)
 {
 	return (dispatch) =>
 	{
-		const response = chatService.Message(
+		chatService.Message(
 			text,
 			senderId,
 			chatId,
@@ -83,6 +84,26 @@ export function message(text, senderId, chatId, type, index, senderName)
 		).then(
 			async (data) =>
 			{
+				// if(messages){
+				// 	console.log(messages.currentchat._id,messages.currentchat.type);
+				// 	let type = messages.currentchat.type;
+				// 	if(type === "directMessage"){
+				// 		console.log(user.directMessage);
+				// 		let directMessage = user.directMessage;
+				// 		for(var i=0;i<directMessage.length;i++){
+				// 			if(directMessage[i].chatId._id === messages.currentchat._id)
+				// 			{
+				// 				console.log(directMessage[i].chatId, messages.currentchat)
+				// 			}
+				// 		}
+				// 	}
+				// 	else{
+				// 		console.log(user.channel);
+				// 	}
+				// 	}
+				// dispatch({
+
+				// })
 				dispatch({
 					type: currentChatConstants.CHAT_SUCCESS,
 					payload: { data },
@@ -99,3 +120,4 @@ export function message(text, senderId, chatId, type, index, senderName)
 		)
 	}
 }
+

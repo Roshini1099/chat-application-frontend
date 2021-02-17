@@ -3,9 +3,12 @@ import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './chatBox.css';
-import * as chatActions from '../../actions';
-import { useDispatch, useSelector } from "react-redux";
+import axios from '../../helpers/axios';
 import { typing } from '../../helpers/socket'
+import { chatActions } from '../../actions';
+import { useDispatch, useSelector } from "react-redux";
+import { currentChatConstants, chatConstants } from '../../actionTypes';
+
 function ChatBox(props)
 {
 	const [message, setMessage] = useState("");
@@ -13,8 +16,8 @@ function ChatBox(props)
 	const dispatch = useDispatch();
 	const senderId = useSelector((state) => state.authentication.user.user._id);
 	const senderName = useSelector((state) => state.authentication.user.user.userName);
+	const user = useSelector((state) => state.authentication.user.user);
 	const messages = useSelector((state) => state.currentChat);
-
 	if (messages === null) {
 		return null
 	}
@@ -24,12 +27,56 @@ function ChatBox(props)
 		setMessage(message);
 	};
 
-	function sendMessage(e)
+	async function sendMessage(e)
 	{
 		e.preventDefault();
-		if (message) {
-			dispatch(chatActions.message(message, senderId, messages.currentchat._id, "Create", index, senderName));
+		const data = {
+			text: message,
+			senderId,
+			chatId: messages.currentchat._id,
+			type: "Create",
+			index,
+			senderName
+		};
+		console.log(data);
+		await axios.post('/api/message', data).then(async (response) =>
+		{
 			setMessage('');
+			dispatch({
+				type: currentChatConstants.CHAT_SUCCESS,
+				payload: { data: response.data },
+			});
+			await currentMessage(response.data);
+
+		}).catch((err) =>
+		{
+			console.log(err)
+		})
+	}
+	function currentMessage(data)
+	{
+		let type = data.type;
+		if (type === "directMessage") {
+			let directMessage = user.directMessage
+			for (var i = 0; i < directMessage.length; i++) {
+				if (directMessage[i].chatId._id === data._id) {
+					directMessage[i].chatId = {
+						...directMessage[i].chatId,
+						...data
+					}
+				}
+			}
+		}
+		else {
+			let channels = user.channels
+			for (var i = 0; i < channels.length; i++) {
+				if (channels[i].chatId._id === data._id) {
+					channels[i].chatId = {
+						...channels[i].chatId,
+						...data
+					}
+				}
+			}
 		}
 	}
 

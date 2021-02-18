@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { currentchatactions } from '../../actions';
 import Channels from './channels/Channel';
 import Userinfo from './userinfo/Userinfo';
+import Header from '../header/Header';
 function ChatSidebar(props) {
 	const userName = useSelector(
 		(state) => state.authentication.user.user.userName

@@ -3,7 +3,7 @@ import { Menu } from 'semantic-ui-react';
 import Channels from './channels/Channels';
 import Userinfo from './userinfo/Userinfo';
 import './Sidebar.css';
-import UserInfo from './userinfo/Userinfo';
+import UserInfo from '../chatSidebar/userinfo/Userinfo';
 
 export const Sidebar = () => {
 	return (
@@ -15,7 +15,6 @@ export const Sidebar = () => {
 			className="side_bar"
 		>
 			<UserInfo />
-			<Channels />
 		</Menu>
 	);
 };

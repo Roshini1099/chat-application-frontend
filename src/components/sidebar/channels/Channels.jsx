@@ -13,7 +13,7 @@ const Channels = () => {
 
 	return (
 		<>
-			<Menu.Menu>
+			<Menu.Menu style={{ marginTop: '' }}>
 				<Menu.Item>
 					<span>
 						<Icon name="exchange" /> Channels
@@ -26,7 +26,11 @@ const Channels = () => {
 					</span>
 				</Menu.Item>
 			</Menu.Menu>
-			<Modal open={modalOpenState} onClose={closeModal}>
+			<Modal
+				open={modalOpenState}
+				onClose={closeModal}
+				style={{ left: '500px', height: '250px', top: '270px' }}
+			>
 				<Modal.Header>Create Channel</Modal.Header>
 
 				<Modal.Content>

@@ -1,53 +1,48 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './chatBox.css';
 import axios from '../../helpers/axios';
-import { typing } from '../../helpers/socket'
+import { typing } from '../../helpers/socket';
 import { chatActions } from '../../actions';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from 'react-redux';
 import { currentChatConstants, chatConstants } from '../../actionTypes';
-import { currentchatactions } from '../../actions/currentchatactions'
+import { currentchatactions } from '../../actions/currentchatactions';
 
-function ChatBox(props)
-{
-	const [message, setMessage] = useState("");
+function ChatBox(props) {
+	const [message, setMessage] = useState('');
 	const [index, setIndex] = useState(0);
 	const dispatch = useDispatch();
 	const senderId = useSelector((state) => state.authentication.user.user._id);
-	const senderName = useSelector((state) => state.authentication.user.user.userName);
+	const senderName = useSelector(
+		(state) => state.authentication.user.user.userName
+	);
 	const user = useSelector((state) => state.authentication.user);
 	const messages = useSelector((state) => state.currentChat);
 	if (messages === null) {
-		return null
+		return null;
 	}
-	const onChangeMessage = (e) =>
-	{
+	const onChangeMessage = (e) => {
 		const message = e.target.value;
 		setMessage(message);
 	};
 
-	async function sendMessage(e)
-	{
+	async function sendMessage(e) {
 		e.preventDefault();
 		const data = {
 			text: message,
 			recieverId: messages.currentchat.recieverId,
 			senderId,
 			chatId: messages.currentchat._id,
-			type: "Create",
+			type: 'Create',
 			index,
 			senderName,
-
 		};
 		// console.log(data);
-		if (message === '')
-			return;
-		dispatch(currentchatactions.addChat(data, user))
+		if (message === '') return;
+		dispatch(currentchatactions.addChat(data, user));
 		setMessage('');
-
-
 	}
 	// function currentMessage(data)
 	// {
@@ -76,22 +71,33 @@ function ChatBox(props)
 	// 	}
 	// }
 
-	const typingHandler = () =>
-	{
-		let payload = { type: messages.currentchat.type, isTyping: true, recieverId: messages.currentchat.recieverId, userName: senderName, chatId: messages.currentchat._id }
+	const typingHandler = () => {
+		let payload = {
+			type: messages.currentchat.type,
+			isTyping: true,
+			recieverId: messages.currentchat.recieverId,
+			userName: senderName,
+			chatId: messages.currentchat._id,
+		};
 		typing(payload);
-	}
+	};
 
 	return (
 		<div className="chatbox">
 			<div className="chatbox__header">
 				<div className="chatbox__header__title">
-					{messages.currentchat.type === "directMessage" ? <h2>{messages.currentchat.recieverName}</h2> : <h2>{messages.currentchat.chatName}</h2>}
+					{messages.currentchat.type === 'directMessage' ? (
+						<h2>{messages.currentchat.recieverName}</h2>
+					) : (
+						<h2>{messages.currentchat.chatName}</h2>
+					)}
 					{/* replace class online with lastseen. */}
 					<div className="online"></div>
 				</div>
 				{/* visible only in case of channels */}
-				{messages.typing && <p className="typing">{messages.typinguser} typing</p>}
+				{messages.typing && (
+					<p className="typing">{messages.typinguser} typing</p>
+				)}
 			</div>
 			<div className="chatbox__body">
 				<div className="chatbox__body__message">
@@ -99,10 +105,16 @@ function ChatBox(props)
 						<div>
 							<div className="chatbox__body__message__header">
 								<div className="profile"></div>
-								<div className="chatbox__username">
-									<h5>{value.senderName}</h5>
+								<div>
+									<h5 style={{ color: 'white' }}>
+										{value.senderName}
+									</h5>
 								</div>
-								<div className="lastseen">{new Date(value.timestamp).toString().substring(0, 21)}</div>
+								<div className="lastseen">
+									{new Date(value.timestamp)
+										.toString()
+										.substring(0, 21)}
+								</div>
 							</div>
 							<div className="chatbox__body__message__text">
 								<p>{value.text}</p>
@@ -118,7 +130,13 @@ function ChatBox(props)
 			<div className="chatbox__footer">
 				<div className="chatbox__footer__body">
 					<div className="chatbox__footer__input">
-						<input type="text" value={message} placeholder="Enter message" onChange={onChangeMessage} onKeyPress={typingHandler} />
+						<input
+							type="text"
+							value={message}
+							placeholder="Enter message"
+							onChange={onChangeMessage}
+							onKeyPress={typingHandler}
+						/>
 					</div>
 					<div>
 						<AttachFileIcon />

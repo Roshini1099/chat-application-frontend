@@ -70,7 +70,11 @@ function Channels() {
 				</Menu.Item>
 			</Menu.Menu>
 
-			<Modal open={modalOpenState} onClose={closeModal}>
+			<Modal
+				open={modalOpenState}
+				onClose={closeModal}
+				style={{ left: '500px', height: '250px', top: '270px' }}
+			>
 				<Modal.Header>Add Channel</Modal.Header>
 				<Modal.Content>
 					<Form onSubmit={onSubmit}>

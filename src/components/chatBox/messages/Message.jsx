@@ -1,12 +1,12 @@
 import React from 'react';
-import MessageHeader from './MessageHeader';
+// import MessageHeader from './MessageHeader';
 import MessageContent from './MessageContent';
 import { MuseumSharp } from '@material-ui/icons';
 
 const Messages = () => {
 	return (
 		<div>
-			<MessageHeader />
+			<MessageContent />
 		</div>
 	);
 };

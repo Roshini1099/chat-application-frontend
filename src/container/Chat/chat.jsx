@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import ChatBox from '../../components/chatBox/chatBox';
 import { initialise } from '../../helpers/socket';
 import './chat.css';
-import Messages from '../../components/chatBox/messages/Message';
+import MessageContent from '../../components/chatBox/messages/MessageContent';
 
 const Chat = () => {
 	const userId = useSelector((state) => state.authentication.user.user._id);
@@ -17,6 +17,7 @@ const Chat = () => {
 			<div className="chat__inner">
 				<ChatSidebar />
 				<ChatBox />
+				{/* <MessageContent /> */}
 			</div>
 		</div>
 		// <div className="chat">

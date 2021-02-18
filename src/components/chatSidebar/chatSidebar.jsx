@@ -4,19 +4,16 @@ import './chatSidebar.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentchatactions } from '../../actions';
 import Channels from './channels/Channel';
-import Userinfo from './userinfo/Userinfo';
 
 function ChatSidebar(props) {
 	const userName = useSelector(
 		(state) => state.authentication.user.user.userName
 	);
-	const channels = useSelector(
-		(state) => state.authentication.user
-	);
+	const channels = useSelector((state) => state.authentication.user);
 	console.log(channels);
 
 	useEffect(() => {
-		console.log(channels)
+		console.log(channels);
 	}, channels);
 	const directMessage = useSelector(
 		(state) => state.authentication.user.user.directMessage

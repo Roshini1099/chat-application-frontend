@@ -6,18 +6,20 @@ import { initialise } from '../../helpers/socket';
 import './chat.css';
 import MessageContent from '../../components/chatBox/messages/MessageContent';
 
-const Chat = () => {
+const Chat = () =>
+{
 	const userId = useSelector((state) => state.authentication.user.user._id);
-	useEffect(() => {
-		console.log('inside use effect chat', userId);
+	const messages = useSelector((state => state.currentChat))
+	useEffect(() =>
+	{
+		console.log('inside use effect chat', userId)
 		initialise(userId);
 	}, []);
 	return (
 		<div className="chat">
 			<div className="chat__inner">
 				<ChatSidebar />
-				<ChatBox />
-				{/* <MessageContent /> */}
+				{messages && <ChatBox />}
 			</div>
 		</div>
 		// <div className="chat">

@@ -59,7 +59,7 @@ const alllisteners = ()=>{
     socket.on('getnewchat',(payload)=>{
         let user = store.getState();
         console.log('get new chat payload', payload);
-        store.dispatch(currentchatactions.fetchChat(payload,user.authentication.user));
+        store.dispatch(currentchatactions.fetchChat(payload,user.authentication.user,user.currentChat.currentchat._id));
         console.log('check new chat');
 
     })

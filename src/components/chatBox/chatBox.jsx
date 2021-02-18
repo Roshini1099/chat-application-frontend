@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -11,7 +11,8 @@ import { currentChatConstants, chatConstants } from '../../actionTypes';
 import { currentchatactions } from '../../actions/currentchatactions';
 import MessageContent from './messages/MessageContent';
 
-function ChatBox(props) {
+function ChatBox(props)
+{
 	const [message, setMessage] = useState('');
 	const [index, setIndex] = useState(0);
 	const dispatch = useDispatch();
@@ -21,15 +22,15 @@ function ChatBox(props) {
 	);
 	const user = useSelector((state) => state.authentication.user);
 	const messages = useSelector((state) => state.currentChat);
-	if (messages === null) {
-		return null;
-	}
-	const onChangeMessage = (e) => {
+
+	const onChangeMessage = (e) =>
+	{
 		const message = e.target.value;
 		setMessage(message);
 	};
 
-	async function sendMessage(e) {
+	async function sendMessage(e)
+	{
 		e.preventDefault();
 		const data = {
 			text: message,
@@ -73,7 +74,8 @@ function ChatBox(props) {
 	// 	}
 	// }
 
-	const typingHandler = () => {
+	const typingHandler = () =>
+	{
 		let payload = {
 			type: messages.currentchat.type,
 			isTyping: true,
@@ -83,7 +85,9 @@ function ChatBox(props) {
 		};
 		typing(payload);
 	};
-
+	if (messages === null) {
+		return null;
+	}
 	return (
 		<div className="chatbox">
 			<div className="chatbox__header">
@@ -91,8 +95,8 @@ function ChatBox(props) {
 					{messages.currentchat.type === 'directMessage' ? (
 						<h2>{messages.currentchat.recieverName}</h2>
 					) : (
-						<h2>{messages.currentchat.chatName}</h2>
-					)}
+							<h2>{messages.currentchat.chatName}</h2>
+						)}
 					{/* replace class online with lastseen. */}
 					<div className="online"></div>
 				</div>
@@ -121,7 +125,7 @@ function ChatBox(props) {
 					</div>
 				</div>
 			</div>
-		</div>
+		</div >
 	);
 }
 

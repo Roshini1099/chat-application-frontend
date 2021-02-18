@@ -3,6 +3,7 @@ import AddBoxIcon from '@material-ui/icons/AddBox';
 import './chatSidebar.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentchatactions } from '../../actions';
+import { chatService } from '../../services/chatservices'
 import Channels from './channels/Channel';
 
 function ChatSidebar(props) {
@@ -33,45 +34,65 @@ function ChatSidebar(props) {
 		dispatch(currentchatactions.currentchat(data));
 	}
 
-	return (
-		<div className="sidebar">
-			<div className="sidebar__header">
-				<h2>{userName}</h2>
-			</div>
 
-			<Channels />
+        chatService.updateStatus(data._id, userId, 'seen')
+            .then(() =>
+            {
+                console.log('update statis success [chatsidebarjsx]')
+                newMessage({
+                    type: data.type,
+                    chatId: data._id,
+                    recieverId: data.recieverId,
+                    recieverName: data.recieverName,
+                    senderId: userId,
+                    senderName: userName
+                })
+            })
+            .catch((err) =>
+            {
+                console.log(err);
+            })
+    }
 
-			<div className="sidebar__channel">
-				<div className="sidebar__channel__list">
-					{channels.user.channels.map((value, index) => (
-						<div onClick={() => currentChatChannel(value.chatId)}>
-							<h5>{value.chatId.chatName}</h5>
-						</div>
-					))}
-				</div>
-			</div>
-			<div className="sidebar__channel">
-				<div>
-					<h4>Direct Message</h4>
-				</div>
-				<div className="sidebar__channel__list">
-					{channels.user.directMessage.map((value, index) => (
-						<div
-							onClick={() =>
-								currentChatDirectMessage(
-									value.chatId,
-									value.receiverId
-								)
-							}
-						>
-							<div className="profile"></div>
-							<h5>{value.receiverId.userName}</h5>
-						</div>
-					))}
-				</div>
-			</div>
-		</div>
-	);
+    return (
+        <div className="sidebar">
+            <div className="sidebar__header">
+                <h2>{userName}</h2>
+            </div>
+            <Channels />
+            <div className="sidebar__channel">
+                <div className="sidebar__channel__list">
+                    {channels.user.channels.map((value, index) => (
+                        <div onClick={() => currentChatChannel(value.chatId)}>
+                            <h5>{value.chatId.chatName}</h5>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <div className="sidebar__channel">
+                <div>
+                    <h4>Direct Message</h4>
+                </div>
+                <div className="sidebar__channel__list">
+                    {channels.user.directMessage.map((value, index) => (
+                        <div
+                            onClick={() =>
+                                currentChatDirectMessage(
+                                    value.chatId,
+                                    value.receiverId
+                                )
+                            }
+                        >
+                            <div className="profile"></div>
+                            <h5>{value.receiverId.userName}</h5>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+
+    );
+
 }
 
 export default ChatSidebar;

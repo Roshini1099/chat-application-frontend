@@ -4,40 +4,48 @@ export const chatService = {
 	joinChannel,
 	searchChannel,
 	Message,
+	updateStatus
 };
 
 //creating new channel
-function createChannel(chatName, userId, type) {
+function createChannel(chatName, userId, type)
+{
 	const channel = {
 		chatName,
 		userId,
 		type,
 	};
 
-	return axios.post('/api/channel/newChannel', channel).then((response) => {
+	return axios.post('/api/channel/newChannel', channel).then((response) =>
+	{
 		return response.data;
 	});
 }
 
-function joinChannel(chatId, userId) {
+function joinChannel(chatId, userId)
+{
 	const channel = {
 		chatId,
 		userId,
 	};
-	return axios.post('/api/channel/joinchannel', channel).then((response) => {
+	return axios.post('/api/channel/joinchannel', channel).then((response) =>
+	{
 		return response.data;
 	});
 }
-function searchChannel(searchString) {
+function searchChannel(searchString)
+{
 	const data = {
 		searchString,
 	};
-	return axios.get('/api/channel/search', data).then((response) => {
+	return axios.get('/api/channel/search', data).then((response) =>
+	{
 		return response.data;
 	});
 }
 
-async function Message(text, senderId, chatId, type, index, senderName) {
+async function Message(text, senderId, chatId, type, index, senderName)
+{
 	console.log(text);
 	const data = {
 		text,
@@ -50,10 +58,25 @@ async function Message(text, senderId, chatId, type, index, senderName) {
 	console.log(data);
 	return await axios
 		.post('/api/message', data)
-		.then((response) => {
+		.then((response) =>
+		{
 			return response.data;
 		})
-		.catch((err) => {
+		.catch((err) =>
+		{
 			console.log(err);
 		});
+}
+
+function updateStatus(chatId, userId, type)
+{
+	const data = {
+		chatId,
+		type,
+		userId
+	};
+	return axios.post('/api/updatestatus', data).then((response) =>
+	{
+		return response.data;
+	});
 }

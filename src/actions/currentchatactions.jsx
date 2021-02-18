@@ -2,6 +2,7 @@
 import { currentChatConstants, userConstants } from '../actionTypes';
 import axios from '../helpers/axios'
 import { newMessage } from '../helpers/socket'
+import { chatService } from './../services/chatservices'
 export const currentchatactions = {
 	currentchat, typing, fetchChat, addChat
 };
@@ -75,7 +76,7 @@ function fetchChat(payload, user, currentChatId)
 	return (dispatch) =>
 	{
 		axios.post('/api/getChat', { chatId: payload.chatId })
-			.then(response =>
+			.then(response => 
 			{
 				let data = {
 					...response.data,
@@ -87,6 +88,26 @@ function fetchChat(payload, user, currentChatId)
 						type: currentChatConstants.CHAT_SUCCESS,
 						payload: { data: data },
 					});
+
+					let length = response.data.messages.length;
+					if (response.data.messages[length - 1].senderId === data.recieverId && (response.data.messages[length - 1].seen === false) && response.data.type === 'directMessage') {
+						chatService.updateStatus(response.data._id, user.user._id, 'seen')
+							.then(() =>
+							{
+								newMessage({
+									type: 'directMessage',
+									chatId: response.data._id,
+									recieverId: data.recieverId,
+									recieverName: data.recieverName,
+									senderId: user.user._id,
+									senderName: user.user.userName
+								})
+							}).catch(err =>
+							{
+								console.log(err);
+							})
+					}
+
 				}
 				let updatedUser = currentMessage(response.data, user);
 				dispatch({

@@ -34,14 +34,14 @@ function ChatBox(props)
 		const data = {
 			text: message,
 			recieverId: messages.currentchat.recieverId,
+			recieverName: messages.currentchat.recieverName,
 			senderId,
 			chatId: messages.currentchat._id,
 			type: "Create",
 			index,
 			senderName,
-
 		};
-		// console.log(data);
+		console.log('chatbox', messages);
 		if (message === '')
 			return;
 		dispatch(currentchatactions.addChat(data, user))

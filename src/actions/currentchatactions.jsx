@@ -35,7 +35,7 @@ function typing(data, userName)
 
 function addChat(data, user)
 {
-	console.log('into the add chat')
+	console.log('into the add chat');
 	return (dispatch) =>
 	{
 		axios.post('/api/message', data)
@@ -56,6 +56,7 @@ function addChat(data, user)
 					recieverId: data.recieverId,
 					recieverName: data.recieverName
 				}
+
 				dispatch({
 					type: currentChatConstants.CHAT_SUCCESS,
 					payload: { data: data_ },
@@ -69,7 +70,7 @@ function addChat(data, user)
 	}
 }
 
-function fetchChat(payload, user)
+function fetchChat(payload, user, currentChatId)
 {
 	return (dispatch) =>
 	{
@@ -81,10 +82,12 @@ function fetchChat(payload, user)
 					recieverId: payload.senderId,
 					recieverName: payload.senderName
 				}
-				dispatch({
-					type: currentChatConstants.CHAT_SUCCESS,
-					payload: { data: data },
-				});
+				if (response.data._id == currentChatId) {
+					dispatch({
+						type: currentChatConstants.CHAT_SUCCESS,
+						payload: { data: data },
+					});
+				}
 				let updatedUser = currentMessage(response.data, user);
 				dispatch({
 					type: userConstants.LOGIN_SUCCESS,

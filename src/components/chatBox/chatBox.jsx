@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
@@ -19,9 +19,8 @@ function ChatBox(props)
 	const senderName = useSelector((state) => state.authentication.user.user.userName);
 	const user = useSelector((state) => state.authentication.user);
 	const messages = useSelector((state) => state.currentChat);
-	if (messages === null) {
-		return null
-	}
+
+
 	const onChangeMessage = (e) =>
 	{
 		const message = e.target.value;
@@ -46,9 +45,9 @@ function ChatBox(props)
 			return;
 		dispatch(currentchatactions.addChat(data, user))
 		setMessage('');
-
-
 	}
+
+
 	// function currentMessage(data)
 	// {
 	// 	let type = data.type;
@@ -81,7 +80,9 @@ function ChatBox(props)
 		let payload = { type: messages.currentchat.type, isTyping: true, recieverId: messages.currentchat.recieverId, userName: senderName, chatId: messages.currentchat._id }
 		typing(payload);
 	}
-
+	if (messages === null) {
+		return null
+	}
 	return (
 		<div className="chatbox">
 			<div className="chatbox__header">

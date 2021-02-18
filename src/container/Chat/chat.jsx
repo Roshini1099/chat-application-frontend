@@ -8,6 +8,7 @@ import './chat.css'
 const Chat = () =>
 {
 	const userId = useSelector((state) => state.authentication.user.user._id);
+	const messages = useSelector((state => state.currentChat))
 	useEffect(() =>
 	{
 		console.log('inside use effect chat', userId)
@@ -17,7 +18,7 @@ const Chat = () =>
 		<div className="chat">
 			<div className="chat__inner">
 				<ChatSidebar />
-				<ChatBox />
+				{messages && <ChatBox />}
 			</div>
 		</div>
 	)

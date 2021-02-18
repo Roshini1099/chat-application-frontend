@@ -1,6 +1,7 @@
 
 import { currentChatConstants, userConstants } from '../actionTypes';
 import axios from '../helpers/axios'
+import  authHeader  from '../helpers/authheader';
 import { newMessage } from '../helpers/socket'
 export const currentchatactions = {
 	currentchat, typing, fetchChat, addChat
@@ -38,7 +39,7 @@ function addChat(data, user)
 	console.log('into the add chat')
 	return (dispatch) =>
 	{
-		axios.post('/api/message', data)
+		axios.post('/api/message', data, { headers: authHeader() })
 			.then(response =>
 			{
 				console.log(data)
@@ -73,7 +74,7 @@ function fetchChat(payload, user)
 {
 	return (dispatch) =>
 	{
-		axios.post('/api/getChat', { chatId: payload.chatId })
+		axios.post('/api/getChat', { chatId: payload.chatId }, { headers: authHeader() })
 			.then(response =>
 			{
 				let data = {

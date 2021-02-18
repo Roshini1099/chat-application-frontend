@@ -1,4 +1,5 @@
 import axios from '../helpers/axios';
+import  authHeader  from '../helpers/authheader';
 export const chatService = {
 	createChannel,
 	joinChannel,
@@ -14,7 +15,7 @@ function createChannel(chatName, userId, type) {
 		type,
 	};
 
-	return axios.post('/api/channel/newChannel', channel).then((response) => {
+	return axios.post('/api/channel/newChannel', channel, { headers: authHeader() }).then((response) => {
 		return response.data;
 	});
 }
@@ -24,7 +25,7 @@ function joinChannel(chatId, userId) {
 		chatId,
 		userId,
 	};
-	return axios.post('/api/channel/joinchannel', channel).then((response) => {
+	return axios.post('/api/channel/joinchannel', channel, { headers: authHeader() }).then((response) => {
 		return response.data;
 	});
 }
@@ -32,7 +33,7 @@ function searchChannel(searchString) {
 	const data = {
 		searchString,
 	};
-	return axios.get('/api/channel/search', data).then((response) => {
+	return axios.get('/api/channel/search', data, { headers: authHeader() }).then((response) => {
 		return response.data;
 	});
 }
@@ -49,7 +50,7 @@ async function Message(text, senderId, chatId, type, index, senderName) {
 	};
 	console.log(data);
 	return await axios
-		.post('/api/message', data)
+		.post('/api/message', data, { headers: authHeader() })
 		.then((response) => {
 			return response.data;
 		})

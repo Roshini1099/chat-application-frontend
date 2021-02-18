@@ -2,6 +2,7 @@
 import { currentChatConstants, userConstants } from '../actionTypes';
 import axios from '../helpers/axios'
 import { newMessage } from '../helpers/socket'
+import { chatService } from './../services/chatservices'
 export const currentchatactions = {
 	currentchat, typing, fetchChat, addChat
 };
@@ -35,7 +36,7 @@ function typing(data, userName)
 
 function addChat(data, user)
 {
-	console.log('into the add chat')
+	console.log('into the add chat');
 	return (dispatch) =>
 	{
 		axios.post('/api/message', data)
@@ -56,6 +57,7 @@ function addChat(data, user)
 					recieverId: data.recieverId,
 					recieverName: data.recieverName
 				}
+
 				dispatch({
 					type: currentChatConstants.CHAT_SUCCESS,
 					payload: { data: data_ },
@@ -69,22 +71,44 @@ function addChat(data, user)
 	}
 }
 
-function fetchChat(payload, user)
+function fetchChat(payload, user, currentChatId)
 {
 	return (dispatch) =>
 	{
 		axios.post('/api/getChat', { chatId: payload.chatId })
-			.then(response =>
+			.then(response => 
 			{
 				let data = {
 					...response.data,
 					recieverId: payload.senderId,
 					recieverName: payload.senderName
 				}
-				dispatch({
-					type: currentChatConstants.CHAT_SUCCESS,
-					payload: { data: data },
-				});
+				if (response.data._id == currentChatId) {
+					dispatch({
+						type: currentChatConstants.CHAT_SUCCESS,
+						payload: { data: data },
+					});
+
+					let length = response.data.messages.length;
+					if (response.data.messages[length - 1].senderId === data.recieverId && (response.data.messages[length - 1].seen === false) && response.data.type === 'directMessage') {
+						chatService.updateStatus(response.data._id, user.user._id, 'seen')
+							.then(() =>
+							{
+								newMessage({
+									type: 'directMessage',
+									chatId: response.data._id,
+									recieverId: data.recieverId,
+									recieverName: data.recieverName,
+									senderId: user.user._id,
+									senderName: user.user.userName
+								})
+							}).catch(err =>
+							{
+								console.log(err);
+							})
+					}
+
+				}
 				let updatedUser = currentMessage(response.data, user);
 				dispatch({
 					type: userConstants.LOGIN_SUCCESS,

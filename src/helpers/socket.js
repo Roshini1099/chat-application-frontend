@@ -7,12 +7,13 @@ const PATH = '';
 
 
 export const initialise = (userId)=>{
-    // const store  = store.getState();
     console.log('initalise',userId)
-    console.log('inside initalise')
     let user = JSON.parse(localStorage.getItem('user'));
+    if(!user)
+        return;
     if(socket===null || socket.connected==false)
     {
+        console.log('connecting the socket')
         socket= io('http://localhost:3333',{
             auth:{
                 token: true,
@@ -27,7 +28,7 @@ export const initialise = (userId)=>{
     })
     socket.on('disconnect',()=>{
         console.log('socket disconected')
-        socket.disconnect();
+        socket=null;
     })
     networkError();
     alllisteners();
@@ -57,8 +58,8 @@ const alllisteners = ()=>{
 
     socket.on('getnewchat',(payload)=>{
         let user = store.getState();
-        console.log(user.authentication.user)
-        store.dispatch(currentchatactions.fetchChat(payload.chatId,user.authentication.user));
+        console.log('get new chat payload', payload);
+        store.dispatch(currentchatactions.fetchChat(payload,user.authentication.user));
         console.log('check new chat');
 
     })
@@ -84,6 +85,7 @@ const seen = ()=>{
 }
 
 export const newMessage = (payload)=>{
+    console.log('newmsgpayload',payload)
     socket.emit('getnewchat',payload);
 }
 

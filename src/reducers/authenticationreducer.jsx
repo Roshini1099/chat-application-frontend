@@ -16,7 +16,7 @@ export function authentication(state = initialState, action)
 		case userConstants.LOGIN_SUCCESS:
 			return {
 				loggedIn: true,
-				user: payload.user,
+				user: {...payload.user},
 			};
 		case userConstants.GET_DETAILS_SUCCESS:
 			return {

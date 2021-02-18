@@ -10,16 +10,23 @@ export const chatActions = {
 	joinChannel,
 	searchChannel,
 };
-function createChannel(chatName, userId, type) {
+function createChannel(chatName, userId, type, user) {
 	return (dispatch) => {
 		console.log('inside func');
 		chatService.createChannel(chatName, userId, type).then(
 			async (data) => {
 				console.log(data);
+				let updatedChannel = await currentChannel(data, user);
+				console.log(updatedChannel)
 				dispatch({
-					type: chatConstants.CHANNEL_CREATE_SUCCESS,
-					payload: { data },
-				});
+					type: userConstants.LOGIN_SUCCESS,
+					payload: { user: updatedChannel }
+				})
+
+				// dispatch({
+				// 	type: chatConstants.CHANNEL_CREATE_SUCCESS,
+				// 	payload: { data },
+				// });
 			},
 			(error) => {
 				console.log('inside error block');
@@ -30,6 +37,13 @@ function createChannel(chatName, userId, type) {
 			}
 		);
 	};
+}
+function currentChannel(data, user)
+{
+	let newUser = {...user}
+	let chat = {chatId:data}
+	newUser.user.channels.push(chat);
+	return newUser;
 }
 
 function joinChannel(chatId, userId) {

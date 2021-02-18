@@ -41,11 +41,24 @@ function addChat(data, user)
 		axios.post('/api/message', data)
 			.then(response =>
 			{
-				console.log(response.data)
-				newMessage({ type: response.data.type, chatId: response.data._id, recieverId: data.recieverId })
+				console.log(data)
+				newMessage({
+					type: response.data.type,
+					chatId: response.data._id,
+					recieverId: data.recieverId,
+					recieverName: data.recieverName,
+					senderId: data.senderId,
+					senderName: data.senderName
+				})
+
+				let data_ = {
+					...response.data,
+					recieverId: data.recieverId,
+					recieverName: data.recieverName
+				}
 				dispatch({
 					type: currentChatConstants.CHAT_SUCCESS,
-					payload: { data: response.data },
+					payload: { data: data_ },
 				});
 				let updatedUser = currentMessage(response.data, user);
 				dispatch({
@@ -56,16 +69,21 @@ function addChat(data, user)
 	}
 }
 
-function fetchChat(chatId, user)
+function fetchChat(payload, user)
 {
 	return (dispatch) =>
 	{
-		axios.post('/api/getChat', { chatId: chatId })
+		axios.post('/api/getChat', { chatId: payload.chatId })
 			.then(response =>
 			{
+				let data = {
+					...response.data,
+					recieverId: payload.senderId,
+					recieverName: payload.senderName
+				}
 				dispatch({
 					type: currentChatConstants.CHAT_SUCCESS,
-					payload: { data: response.data },
+					payload: { data: data },
 				});
 				let updatedUser = currentMessage(response.data, user);
 				dispatch({

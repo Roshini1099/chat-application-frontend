@@ -1,85 +1,78 @@
-.chatbox{
-
+.chatbox__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background: var(--color-secondary);
+	height: 80px;
+	padding: var(--p-3);
+	position: fixed;
+	top: 0;
+	width: 85.7%;
 }
 
-.chatbox__header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--color-secondary);
-    height: 80px;
-    padding: var(--p-3);
-    position: fixed;
-    top: 0;
-    width: 80%;
+.chatbox__header__title {
+	display: flex;
+	justify-content: end;
+	align-items: center;
 }
 
-.chatbox__header__title{
- display: flex;
- justify-content: end;
- align-items: center;
+.chatbox__header__title > h2 {
+	font-weight: var(--w-3);
+	color: whitesmoke;
 }
 
-
-.chatbox__header__title > h2{
-    font-weight: var(--w-3);
-    
+.chatbox__body {
+	position: absolute;
+	top: 80px;
+	display: flex;
+	flex-flow: column-reverse;
+	bottom: 60px;
+	overflow-y: scroll;
+	width: 85.7%;
 }
 
-.chatbox__body{
-    position: absolute;
-    top: 80px;
-    display: flex;
-    flex-flow: column-reverse;
-    bottom: 60px;
-    overflow-y: scroll;
-    width: 80%;
+.chatbox__body__message {
+	margin: 0 var(--p-1);
 }
 
-.chatbox__body__message{
-    margin: 0 var(--p-1);
+.chatbox__body__message__header {
+	display: flex;
+	align-items: baseline;
+	margin: var(--p-1) 0;
 }
 
-.chatbox__body__message__header{
-    display: flex;
-    align-items: baseline;
-    margin: var(--p-1) 0;
+.chatbox__body__message__text {
+	margin-left: var(--p-4);
+	width: 400px;
 }
 
-.chatbox__body__message__text{
-    margin-left: var(--p-4);
-    width: 400px;
+.chatbox__footer {
+	position: absolute;
+	width: 85.7%;
+	height: 60px;
+	bottom: 0px;
+	border: 2px solid black;
 }
 
-
-.chatbox__footer{
-    position: absolute;
-    width: 80%;
-    height: 60px;
-    bottom: 0px;
-    border: 2px solid black;
+.chatbox__footer__input {
+	width: 90%;
 }
 
-.chatbox__footer__input{
-    width: 90%;
+.chatbox__footer__body {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 var(--p-1);
+}
+.chatbox__footer__input input {
+	height: 50px;
+	background: white;
+	outline: none;
+	width: 100%;
+	border: none;
 }
 
-.chatbox__footer__body{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 var(--p-1);
+.chatbox__footer__input ::placeholder {
+	color: black;
+	opacity: 0.6;
 }
-.chatbox__footer__input input{
-    height: 50px;
-    background: white;
-    outline: none;
-    width: 100%;
-    border: none;
-
-}
-
-.chatbox__footer__input ::placeholder{
-    color: black; 
-    opacity: 0.6;
-    }

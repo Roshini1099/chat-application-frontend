@@ -1,77 +1,71 @@
-:root{
+:root {
+	--p-1: 8px;
+	--p-2: 16px;
+	--p-3: 24px;
+	--p-4: 10px;
 
-  --p-1: 8px;
-  --p-2: 16px;
-  --p-3: 24px;
-  --p-4: 32px;
+	--w-1: 300;
+	--w-2: 500;
+	--w-3: 500;
 
-  --w-1: 300;
-  --w-2: 500;
-  --w-3: 700;
-
-  --color-primary: #fff;
-  --color-secondary: #d7cec7;
-  --color-background: #565656;
-  --color-red: red;
-  --color-info: blue;
-  --color-white: #fff;
-  --color--green: green;
+	--color-primary: #fff;
+	--color-secondary: #351936;
+	--color-background: #3f1f40;
+	--color-red: red;
+	--color-info: blue;
+	--color-white: #fff;
+	--color--green: green;
 }
-
-
-
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	margin: 0;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+		'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+		'Helvetica Neue', sans-serif;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
-h1,h2{
-}
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+		monospace;
 }
-.profile{
-  height: 24px;
-  width: 24px;
-  background: var(--color-info);
-  border-radius: 50%;
-  margin: var(--p-1);
+.profile {
+	height: 24px;
+	width: 24px;
+	background: var(--color-info);
+	border-radius: 50%;
+	margin: var(--p-1);
 }
-.online{
-  height: var(--p-2);
-  width: var(--p-2);
-  border-radius: 50%;
-  background: var(--color--green);
-  margin: var(--p-2);
+.online {
+	height: var(--p-2);
+	width: var(--p-2);
+	border-radius: 50%;
+	background: var(--color--green);
+	margin: var(--p-2);
 }
-.lastseen{
-  font-size: 10px;
-  font-style: italic;
-  margin-left: var(--p-2);
-  content: "";
-}
-
-::placeholder{
-  color: black;
+.lastseen {
+	font-size: 10px;
+	font-style: italic;
+	margin-left: var(--p-2);
+	content: '';
 }
 
-.typing{
-  color: var(--color--green);
-  font-style: italic;
+::placeholder {
+	color: black;
 }
 
-.status{
-  display: flex;
+.typing {
+	color: var(--color--green);
+	font-style: italic;
 }
 
-.status p{
-  font-size: 10px;
-  font-style: italic;
-  margin-left: var(--p-1);
+.status {
+	display: flex;
+}
+
+.status p {
+	font-size: 10px;
+	font-style: italic;
+	margin-left: var(--p-1);
 }

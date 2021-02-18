@@ -5,10 +5,12 @@ export const chatService = {
 	joinChannel,
 	searchChannel,
 	Message,
+	updateStatus
 };
 
 //creating new channel
-function createChannel(chatName, userId, type) {
+function createChannel(chatName, userId, type)
+{
 	const channel = {
 		chatName,
 		userId,
@@ -20,7 +22,8 @@ function createChannel(chatName, userId, type) {
 	});
 }
 
-function joinChannel(chatId, userId) {
+function joinChannel(chatId, userId)
+{
 	const channel = {
 		chatId,
 		userId,
@@ -29,7 +32,8 @@ function joinChannel(chatId, userId) {
 		return response.data;
 	});
 }
-function searchChannel(searchString) {
+function searchChannel(searchString)
+{
 	const data = {
 		searchString,
 	};
@@ -38,7 +42,8 @@ function searchChannel(searchString) {
 	});
 }
 
-async function Message(text, senderId, chatId, type, index, senderName) {
+async function Message(text, senderId, chatId, type, index, senderName)
+{
 	console.log(text);
 	const data = {
 		text,
@@ -54,7 +59,21 @@ async function Message(text, senderId, chatId, type, index, senderName) {
 		.then((response) => {
 			return response.data;
 		})
-		.catch((err) => {
+		.catch((err) =>
+		{
 			console.log(err);
 		});
+}
+
+function updateStatus(chatId, userId, type)
+{
+	const data = {
+		chatId,
+		type,
+		userId
+	};
+	return axios.post('/api/updatestatus', data).then((response) =>
+	{
+		return response.data;
+	});
 }

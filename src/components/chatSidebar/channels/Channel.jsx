@@ -51,7 +51,9 @@ function Channels() {
 		if (channel) {
 			setLoadingState(false);
 			// console.log(userId);
-			dispatch(chatActions.createChannel(channel, userId, 'channel', user));
+			dispatch(
+				chatActions.createChannel(channel, userId, 'channel', user)
+			);
 			setChannel('');
 			closeModal();
 		}
@@ -73,7 +75,11 @@ function Channels() {
 				</Menu.Item>
 			</Menu.Menu>
 
-			<Modal open={modalOpenState} onClose={closeModal} style={{left: '500px',height: '250px', top: '270px' }}>
+			<Modal
+				open={modalOpenState}
+				onClose={closeModal}
+				style={{ left: '500px', height: '250px', top: '270px' }}
+			>
 				<Modal.Header>Add Channel</Modal.Header>
 				<Modal.Content>
 					<Form onSubmit={onSubmit}>

@@ -1,44 +1,42 @@
-.chat{
-height: 100vh;
+.chat {
+	height: 100vh;
 }
-.chat__inner{
-    display: grid;
-    height: 100vh;
-    grid-template-columns: 1fr 4fr;
+.chat__inner {
+	display: grid;
+	height: 100vh;
+	grid-template-columns: 1fr 6fr;
 }
-.sidebar{
-    background: var(--color-background);
-    color: var(--color-white);
-}
-
-.sidebar__header{
-    
-    text-align: center;
-    margin: var(--p-2) 0;
+.sidebar {
+	background: var(--color-background);
+	color: var(--color-white);
 }
 
-.sidebar__channel{
-    margin: calc(var(--p-4) * 2) 0;
+.sidebar__header {
+	text-align: center;
+	margin: var(--p-2) 0;
 }
 
-.sidebar__channel h4{
-    margin-left: var(--p-2);
-
+.sidebar__channel {
+	margin: calc(var(--p-4) * 2) 0;
 }
 
-.sidebar__channel h5{
-    /* margin-left: var(--p-3); */
-    padding: var(--p-1);
+.sidebar__channel h4 {
+	margin-left: var(--p-2);
+}
+
+.sidebar__channel h5 {
+	/* margin-left: var(--p-3); */
+	padding: var(--p-1);
 }
 
 .sidebar__channel__list > div {
-    cursor: pointer;
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    padding-left: var(--p-3);
+	cursor: pointer;
+	display: flex;
+	justify-content: end;
+	align-items: center;
+	padding-left: var(--p-3);
 }
 
-.sidebar__channel__list  :hover{
-    background: var(--color-secondary);
+.sidebar__channel__list :hover {
+	background: var(--color-secondary);
 }

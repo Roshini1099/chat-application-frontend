@@ -12,9 +12,13 @@ import 'semantic-ui-css/semantic.min.css'
 
 const App =()=>{
   const alert = useSelector(state => state.alert);
-  const dispatch = useDispatch();
+
   return(
     <div>
+      <div>
+      
+      </div>
+      
       {alert.message &&
                         <div className={`alert ${alert.type}`}>{alert.message}</div>
                     }

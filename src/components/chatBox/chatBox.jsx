@@ -9,6 +9,7 @@ import { chatActions } from '../../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentChatConstants, chatConstants } from '../../actionTypes';
 import { currentchatactions } from '../../actions/currentchatactions';
+import MessageContent from './messages/MessageContent';
 
 function ChatBox(props)
 {
@@ -104,34 +105,7 @@ function ChatBox(props)
 					<p className="typing">{messages.typinguser} typing</p>
 				)}
 			</div>
-			<div className="chatbox__body">
-				<div className="chatbox__body__message">
-					{messages.currentchat.messages.map((value, index) => (
-						<div>
-							<div className="chatbox__body__message__header">
-								<div className="profile"></div>
-								<div>
-									<h5 style={{ color: 'white' }}>
-										{value.senderName}
-									</h5>
-								</div>
-								<div className="lastseen">
-									{new Date(value.timestamp)
-										.toString()
-										.substring(0, 21)}
-								</div>
-							</div>
-							<div className="chatbox__body__message__text">
-								<p>{value.text}</p>
-								{value.senderId === senderId && <div className="status">
-									{value.seen && <p>seen</p>}
-									{value.delivered && <p>delivered</p>}
-								</div>}
-							</div>
-						</div>
-					))}
-				</div>
-			</div>
+			<MessageContent />
 			<div className="chatbox__footer">
 				<div className="chatbox__footer__body">
 					<div className="chatbox__footer__input">

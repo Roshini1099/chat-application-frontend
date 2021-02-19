@@ -12,11 +12,18 @@ import {
 	Input,
 } from 'semantic-ui-react';
 import { currentchatactions } from '../../../actions';
-const MessageContent = ({ data, userId }) =>
+const MessageContent = ({ data, userId, index}) =>
 {
 	const messages = useSelector((state) => state.currentChat);
+	const senderId = useSelector((state) => state.authentication.user.user._id);
+	const senderName = useSelector(
+		(state) => state.authentication.user.user.userName
+	);
+	const user = useSelector((state) => state.authentication.user);
 	const [isLoadingState, setLoadingState] = useState(false);
 	const [modalOpenState, setModalOpenState] = useState(false);
+	const [msg,setMsg] = useState(data.text);
+
 	// const [modalOpen, setModalOpen] = useState(false);
 	const [channel, setChannel] = useState('');
 	const dispatch = useDispatch();
@@ -59,8 +66,25 @@ const MessageContent = ({ data, userId }) =>
 		setChannel(message);
 		console.log(channel);
 	};
+	async function deleteMsg()
+	{
+		const data = {
+			text: msg,
+			recieverId: messages.currentchat.recieverId,
+			recieverName: messages.currentchat.recieverName,
+			senderId,
+			chatId: messages.currentchat._id,
+			type: 'Delete',
+			index,
+			senderName,
+		};
+		console.log('chatbox', messages);
+		dispatch(currentchatactions.addChat(data, user));
+	}
 	return (
 		<div style={{ marginTop: '30px' }}>
+			{data.delete ?
+			null:
 			<Comment.Group style={{ marginLeft: '10px' }}>
 				{/* {messages.currentchat.messages.map((value, index) => ( */}
 				<Comment>
@@ -95,8 +119,8 @@ const MessageContent = ({ data, userId }) =>
 							<Comment.Action onClick={openModal}>
 								<Icon name="edit" onClick={openModal}></Icon>
 							</Comment.Action>
-							<Comment.Action>
-								<Icon name="trash alternate"></Icon>
+							<Comment.Action onClick={deleteMsg}>
+								<Icon name="trash alternate" onClick={deleteMsg}></Icon>
 							</Comment.Action>
 							<Comment.Action></Comment.Action>
 						</Comment.Actions>
@@ -134,6 +158,7 @@ const MessageContent = ({ data, userId }) =>
 				</Comment>
 				{/* ))} */}
 			</Comment.Group>
+}
 		</div>
 	);
 };

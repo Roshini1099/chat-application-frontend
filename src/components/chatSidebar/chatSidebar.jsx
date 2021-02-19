@@ -6,7 +6,7 @@ import { currentchatactions } from '../../actions';
 import { chatService } from '../../services/chatservices'
 import Channels from './channels/Channel';
 import { newMessage } from '../../helpers/socket'
-import Userinfo from './userinfo/Userinfo';
+
 function ChatSidebar(props)
 {
     const userName = useSelector(
@@ -15,18 +15,23 @@ function ChatSidebar(props)
     const userId = useSelector(
         (state) => state.authentication.user.user._id
     );
-    const channels = useSelector(
-        (state) => state.authentication.user
-    );
+
+    const channels = useSelector((state) => state.authentication.user);
     console.log(channels);
 
+    useEffect(() =>
+    {
+        console.log(channels);
+    }, channels);
+    const directMessage = useSelector(
+        (state) => state.authentication.user.user.directMessage
+    );
     const dispatch = useDispatch();
     function currentChatChannel(chat)
     {
         console.log(chat);
         dispatch(currentchatactions.currentchat(chat));
     }
-
     function currentChatDirectMessage(chat, receiver)
     {
         console.log('reciever', receiver);
@@ -36,8 +41,6 @@ function ChatSidebar(props)
             recieverName: receiver.userName,
         };
         dispatch(currentchatactions.currentchat(data));
-
-
         chatService.updateStatus(data._id, userId, 'seen')
             .then(() =>
             {
@@ -55,7 +58,11 @@ function ChatSidebar(props)
             {
                 console.log(err);
             })
+
     }
+
+
+
 
     return (
         <div className="sidebar">

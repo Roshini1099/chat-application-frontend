@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import ChatBox from '../../components/chatBox/chatBox';
 import { initialise } from '../../helpers/socket';
 import './chat.css';
-import Messages from '../../components/chatBox/messages/Message';
+import MessageContent from '../../components/chatBox/messages/MessageContent';
 
 const Chat = () =>
 {

@@ -1,11 +1,12 @@
 import React from 'react';
 import { Comment, Icon, Popup } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-const MessageContent = () => {
-	const messages = useSelector((state) => state.currentChat);
 
+import { currentchatactions } from '../../../actions';
+const MessageContent = ({ data, userId }) =>
+{
 	return (
-		<div style={{ marginTop: '110px' }}>
+		<div style={{ marginTop: '30px' }}>
 			<Comment.Group style={{ marginLeft: '10px' }}>
 				{/* {messages.currentchat.messages.map((value, index) => ( */}
 				<Comment>
@@ -16,7 +17,7 @@ const MessageContent = () => {
 
 					<Comment.Content>
 						<Comment.Author as="a">
-							{/* {value.senderName} */}User
+							{data.senderName}
 						</Comment.Author>
 
 						<Comment.Metadata>
@@ -24,24 +25,17 @@ const MessageContent = () => {
 								{/* {new Date(value.timestamp)
 									.toString()
 									.substring(0, 21)} */}
-								2days ago
+								{new Date(data.timestamp)
+									.toString()
+									.substring(0, 21)}
 							</div>
+
 							<div>
-								<Popup
-									content="Delivered:8.10 AM
-                                            Seen: 8.30AM"
-									trigger={<Icon name="eye"></Icon>}
-									// trigger={
-									// 	<div>
-									// 		{value.seen && <p>seen</p>}
-									// 		{value.delivered && <p>delivered</p>}
-									// 	</div>
-									// }
-								/>
+								{data.delivered && data.senderId === userId && <Icon name="eye" style={data.seen ? { 'color': '#00BFFF' } : { 'color': '#696969' }}></Icon>}
 							</div>
 						</Comment.Metadata>
 						<Comment.Text>
-							{/* {value.text} */}Hey there!
+							{data.text}
 						</Comment.Text>
 						<Comment.Actions>
 							<Comment.Action>

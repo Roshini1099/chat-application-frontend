@@ -85,6 +85,15 @@ function ChatBox(props)
 		};
 		typing(payload);
 	};
+	function updateScroll()
+	{
+		var element = document.getElementById("chatDiv");
+		element.scrollTop = element.scrollHeight;
+	}
+	useEffect(() =>
+	{
+		updateScroll();
+	})
 	if (messages === null) {
 		return null;
 	}
@@ -105,7 +114,18 @@ function ChatBox(props)
 					<p className="typing">{messages.typinguser} typing</p>
 				)}
 			</div>
-			<MessageContent />
+			<div className="chatbox__body" id="chatDiv">
+				{messages.currentchat.messages.map((value, key) => (
+					<MessageContent key={key} data={value} userId={senderId} />
+				))}
+			</div>
+
+
+
+
+
+
+
 			<div className="chatbox__footer">
 				<div className="chatbox__footer__body">
 					<div className="chatbox__footer__input">

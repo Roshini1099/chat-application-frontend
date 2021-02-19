@@ -12,30 +12,51 @@ import {
 	Input,
 } from 'semantic-ui-react';
 import { currentchatactions } from '../../../actions';
-const MessageContent = ({ data, userId }) =>
-{
+const MessageContent = ({ data, userId, key }) => {
 	const messages = useSelector((state) => state.currentChat);
+	console.log(key);
+	const user = useSelector((state) => state.authentication.user);
 	const [isLoadingState, setLoadingState] = useState(false);
 	const [modalOpenState, setModalOpenState] = useState(false);
 	// const [modalOpen, setModalOpen] = useState(false);
-	const [channel, setChannel] = useState('');
+	const [message, setMessage] = useState(data.text);
+	// const messages = useSelector((state) => state.currentChat);
+	const senderId = useSelector((state) => state.authentication.user.user._id);
+	const senderName = useSelector(
+		(state) => state.authentication.user.user.userName
+	);
+
 	const dispatch = useDispatch();
 	function onSubmit(e) {
 		e.preventDefault();
 
 		setLoadingState(true);
-		if (channel) {
+		if (message) {
 			setLoadingState(false);
-			// console.log(userId);
-			// dispatch(
-			// 	chatActions.createChannel(channel, userId, 'channel', user)
-			// );
-			setChannel('');
+			const data = {
+				text: message,
+				recieverId: messages.currentchat.recieverId,
+				recieverName: messages.currentchat.recieverName,
+				senderId,
+				chatId: messages.currentchat._id,
+				type: 'Edit',
+				index: key,
+				senderName,
+			};
+			console.log(key);
+			console.log('chatbox', messages);
+			if (message === '') return;
+			dispatch(currentchatactions.addChat(data, user));
+
+			setMessage('');
+			setMessage(message);
+			console.log(message);
 			closeModal();
 		}
 	}
 	const openModal = () => {
 		console.log('in open modal');
+
 		setModalOpenState(true);
 	};
 	// const openModalJoin = () => {
@@ -56,8 +77,8 @@ const MessageContent = ({ data, userId }) =>
 
 	const handleChange = (e) => {
 		const message = e.target.value;
-		setChannel(message);
-		console.log(channel);
+		setMessage(message);
+		console.log(message);
 	};
 	return (
 		<div style={{ marginTop: '30px' }}>
@@ -85,12 +106,19 @@ const MessageContent = ({ data, userId }) =>
 							</div>
 
 							<div>
-								{data.delivered && data.senderId === userId && <Icon name="eye" style={data.seen ? { 'color': '#00BFFF' } : { 'color': '#696969' }}></Icon>}
+								{data.delivered && data.senderId === userId && (
+									<Icon
+										name="eye"
+										style={
+											data.seen
+												? { color: '#00BFFF' }
+												: { color: '#696969' }
+										}
+									></Icon>
+								)}
 							</div>
 						</Comment.Metadata>
-						<Comment.Text>
-							{data.text}
-						</Comment.Text>
+						<Comment.Text>{data.text}</Comment.Text>
 						<Comment.Actions>
 							<Comment.Action onClick={openModal}>
 								<Icon name="edit" onClick={openModal}></Icon>
@@ -101,35 +129,42 @@ const MessageContent = ({ data, userId }) =>
 							<Comment.Action></Comment.Action>
 						</Comment.Actions>
 						<Modal
-				open={modalOpenState}
-				onClose={closeModal}
-				style={{ left: '500px', height: '250px', top: '270px' }}
-			>
-				<Modal.Header>Edit Message</Modal.Header>
-				<Modal.Content>
-					<Form onSubmit={onSubmit}>
-						<Segment stacked>
-							<Form.Field>
-								<Input
-									name="chatName"
-									value={channel}
-									onChange={handleChange}
-									type="text"
-									placeholder="Enter Channel Name"
-								/>
-							</Form.Field>
-						</Segment>
-					</Form>
-				</Modal.Content>
-				<Modal.Actions>
-					<Button loading={isLoadingState} onClick={onSubmit}>
-						<Icon name="checkmark" /> Save
-					</Button>
-					<Button onClick={closeModal}>
-						<Icon name="remove" /> Cancel
-					</Button>
-				</Modal.Actions>
-			</Modal>
+							open={modalOpenState}
+							onClose={closeModal}
+							style={{
+								left: '500px',
+								height: '250px',
+								top: '270px',
+							}}
+						>
+							<Modal.Header>Edit Message</Modal.Header>
+							<Modal.Content>
+								<Form onSubmit={onSubmit}>
+									<Segment stacked>
+										<Form.Field>
+											<Input
+												name="chatName"
+												value={message}
+												onChange={handleChange}
+												type="text"
+												placeholder="Enter the message"
+											/>
+										</Form.Field>
+									</Segment>
+								</Form>
+							</Modal.Content>
+							<Modal.Actions>
+								<Button
+									loading={isLoadingState}
+									onClick={onSubmit}
+								>
+									<Icon name="checkmark" /> Save
+								</Button>
+								<Button onClick={closeModal}>
+									<Icon name="remove" /> Cancel
+								</Button>
+							</Modal.Actions>
+						</Modal>
 					</Comment.Content>
 				</Comment>
 				{/* ))} */}

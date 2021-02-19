@@ -14,6 +14,7 @@ import MessageContent from './messages/MessageContent';
 function ChatBox(props)
 {
 	const [message, setMessage] = useState('');
+	const [file, setFile] = useState(null);
 	const [index, setIndex] = useState(0);
 	const dispatch = useDispatch();
 	const senderId = useSelector((state) => state.authentication.user.user._id);
@@ -27,7 +28,19 @@ function ChatBox(props)
 	{
 		const message = e.target.value;
 		setMessage(message);
+
 	};
+
+	const fileSelectedHandler = (e) =>
+	{
+		let file = e.target.files[0];
+		console.log(e.target.files[0])
+		let name = e.target.files[0].name;
+
+		setMessage(name);
+		setFile(file);
+
+	}
 
 	async function sendMessage(e)
 	{
@@ -41,11 +54,25 @@ function ChatBox(props)
 			type: 'Create',
 			index,
 			senderName,
+			isFile: false
 		};
-		console.log('chatbox', messages);
+
 		if (message === '') return;
-		dispatch(currentchatactions.addChat(data, user));
+		let formData = new FormData();
+		if (file) {
+			data.isFile = true;
+		}
+		formData.append('data', JSON.stringify(data));
+		if (file) {
+			formData.append(
+				"attachment",
+				file
+			);
+			console.log(file)
+		}
+		dispatch(currentchatactions.addChat(data, formData, user));
 		setMessage('');
+		setFile(null);
 	}
 	// function currentMessage(data)
 	// {
@@ -73,6 +100,11 @@ function ChatBox(props)
 	// 		}
 	// 	}
 	// }
+	const removeFileHandler = () =>
+	{
+		setFile(null);
+		setMessage('');
+	}
 
 	const typingHandler = () =>
 	{
@@ -130,6 +162,7 @@ function ChatBox(props)
 				<div className="chatbox__footer__body">
 					<div className="chatbox__footer__input">
 						<input
+							name="attachment"
 							type="text"
 							value={message}
 							placeholder="Enter message"
@@ -137,8 +170,19 @@ function ChatBox(props)
 							onKeyPress={typingHandler}
 						/>
 					</div>
+					{file && <div className="chatbox__cancel" onClick={removeFileHandler}>
+						x
+						</div>}
 					<div>
-						<AttachFileIcon />
+						<label>
+							<AttachFileIcon />
+							<input
+								style={{ display: 'none' }}
+								type={"file"}
+								onChange={fileSelectedHandler}
+							/>
+						</label>
+
 					</div>
 					<div onClick={sendMessage}>
 						<SendIcon style={{ color: 'blue' }} />

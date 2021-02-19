@@ -23,6 +23,7 @@ export const initialise = (userId)=>{
 
         socket.on('connect',()=>{
             console.log('socket connected',socket.id);
+            joinRoom(state.authentication.user.user.channels);
         })
         
         socket.on('disconnect',()=>{
@@ -46,6 +47,7 @@ const networkError= ()=>{
 const alllisteners = ()=>{
     socket.on('typing',(payload)=>{
         let state = store.getState();
+        console.log('listening to the typing event')
         if(state.currentChat.currentchat._id==payload.chatId)
         {
             console.log(true)

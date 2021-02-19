@@ -61,7 +61,7 @@
 .chatbox__footer__body {
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	align-items: baseline;
 	padding: 0 var(--p-1);
 }
 .chatbox__footer__input input {
@@ -75,4 +75,9 @@
 .chatbox__footer__input ::placeholder {
 	color: black;
 	opacity: 0.6;
+}
+
+.chatbox__cancel{
+	cursor: pointer;
+	color: var(--color-red);
 }

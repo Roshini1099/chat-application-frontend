@@ -108,12 +108,12 @@ function ChatBox(props) {
 				)}
 			</div>
 			<div className="chatbox__body" id="chatDiv">
-				{messages.currentchat.messages.map((value, index) => (
+				{messages.currentchat.messages.map((value, key) => (
 					<MessageContent
-						key={index}
+						key={key}
 						data={value}
-						// {console.log(index)}
 						userId={senderId}
+						index={key}
 					/>
 				))}
 			</div>

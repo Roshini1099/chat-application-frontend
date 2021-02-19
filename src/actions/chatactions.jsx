@@ -9,6 +9,7 @@ export const chatActions = {
 	createChannel,
 	joinChannel,
 	searchChannel,
+	createDirectChat
 };
 function createChannel(chatName, userId, type, user) {
 	return (dispatch) => {
@@ -38,6 +39,44 @@ function createChannel(chatName, userId, type, user) {
 		);
 	};
 }
+function createDirectChat(emailId, userId, type, user) {
+	return (dispatch) => {
+		console.log('inside func');
+		chatService.findEmail(emailId).then(async(val) => {
+		chatService.createDirectMessage(emailId, userId, type).then(
+			async (data) => {
+				console.log(data);
+				let updatedChannel = await currentDirect(data, val, user);
+				console.log(updatedChannel)
+				dispatch({
+					type: userConstants.LOGIN_SUCCESS,
+					payload: { user: updatedChannel }
+				})
+
+				// dispatch({
+				// 	type: chatConstants.CHANNEL_CREATE_SUCCESS,
+				// 	payload: { data },
+				// });
+			},
+			(error) => {
+				console.log('inside error block');
+				dispatch({
+					type: chatConstants.ERROR_CHANNEL,
+					payload: error,
+				});
+			}
+		);
+					
+	},
+	(error) => {
+		console.log('inside error block');
+		dispatch({
+			type: chatConstants.ERROR_CHANNEL,
+			payload: error,
+		});
+	})
+	};
+}
 function currentChannel(data, user)
 {
 	let newUser = {...user}
@@ -45,24 +84,54 @@ function currentChannel(data, user)
 	newUser.user.channels.push(chat);
 	return newUser;
 }
+function currentDirect(data,val, user)
+{
+	let newUser = {...user}
+	let chat = {chatId:data,receiverId:val}
+	newUser.user.directMessage.push(chat);
+	return newUser;
+}
 
-function joinChannel(chatId, userId) {
+function joinChannel(chatName, userId, user) {
 	return (dispatch) => {
-		try {
-			const response = chatService.joinChannel(chatId, userId);
-			const { data } = response;
-			//create an event when a user joins new channel or DM
-			dispatch({
-				type: chatConstants.JOIN_CHANNEL_SUCCESS,
-				payload: data,
-			});
-		} catch (err) {
-			const { data } = err.response;
-			dispatch({
-				type: chatConstants.ERROR_CHANNEL,
-				payload: data,
-			});
-		}
+		chatService.joinChannel(chatName, userId).then(
+			async (data) => {
+				console.log(data);
+				let updatedChannel = await currentChannel(data, user);
+				console.log(updatedChannel)
+				dispatch({
+					type: userConstants.LOGIN_SUCCESS,
+					payload: { user: updatedChannel }
+				})
+
+				// dispatch({
+				// 	type: chatConstants.CHANNEL_CREATE_SUCCESS,
+				// 	payload: { data },
+				// });
+			},
+			(error) => {
+				console.log('inside error block');
+				dispatch({
+					type: chatConstants.ERROR_CHANNEL,
+					payload: error,
+				});
+			}
+		);
+		// try {
+		// 	const response = chatService.joinChannel(chatName, userId);
+		// 	const { data } = response;
+		// 	//create an event when a user joins new channel or DM
+		// 	dispatch({
+		// 		type: chatConstants.JOIN_CHANNEL_SUCCESS,
+		// 		payload: data,
+		// 	});
+		// } catch (err) {
+		// 	const { data } = err.response;
+		// 	dispatch({
+		// 		type: chatConstants.ERROR_CHANNEL,
+		// 		payload: data,
+		// 	});
+		// }
 	};
 }
 export function searchChannel(searchString) {

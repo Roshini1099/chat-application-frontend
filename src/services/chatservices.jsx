@@ -5,7 +5,9 @@ export const chatService = {
 	joinChannel,
 	searchChannel,
 	Message,
-	updateStatus
+	updateStatus,
+	createDirectMessage,
+	findEmail
 };
 
 //creating new channel
@@ -21,11 +23,34 @@ function createChannel(chatName, userId, type)
 		return response.data;
 	});
 }
-
-function joinChannel(chatId, userId)
+function findEmail(emailId)
 {
 	const channel = {
-		chatId,
+		emailId
+	};
+
+	return axios.post('/api/channel/findEmail', channel, { headers: authHeader() }).then((response) => {
+		return response.data;
+	});
+}
+
+function createDirectMessage(receiverEmail, userId, type)
+{
+	const channel = {
+		receiverEmail,
+		userId,
+		type,
+	};
+
+	return axios.post('/api/channel/newChannel', channel, { headers: authHeader() }).then((response) => {
+		return response.data;
+	});
+}
+
+function joinChannel(chatName, userId)
+{
+	const channel = {
+		chatName,
 		userId,
 	};
 	return axios.post('/api/channel/joinchannel', channel, { headers: authHeader() }).then((response) => {

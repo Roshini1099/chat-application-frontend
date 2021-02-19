@@ -21,8 +21,6 @@ function login(emailId, password) {
 			localStorage.setItem('token', response.data.token);
 			localStorage.setItem('userId', response.data.user._id);
 			// let val = localStorage.getItem('userId')
-			let data = await userDetails(response.data.user._id)
-			console.log(data)
 		}
 		return response.data;
 	});

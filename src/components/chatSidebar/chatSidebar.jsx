@@ -5,91 +5,64 @@ import { useDispatch, useSelector } from 'react-redux';
 import { currentchatactions } from '../../actions';
 import { chatService } from '../../services/chatservices'
 import Channels from './channels/Channel';
-
 import { newMessage } from '../../helpers/socket'
-import Userinfo from './userinfo/Userinfo';
-// function ChatSidebar(props)
-// {
-//     const userName = useSelector(
-//         (state) => state.authentication.user.user.userName
-//     );
-//     const userId = useSelector(
-//         (state) => state.authentication.user.user._id
-//     );
-//     const channels = useSelector(
-//         (state) => state.authentication.user
-//     );
-//     console.log(channels);
 
-//     const dispatch = useDispatch();
-//     function currentChatChannel(chat)
-//     {
-//         console.log(chat);
-//         dispatch(currentchatactions.currentchat(chat));
-//     }
-
-//     function currentChatDirectMessage(chat, receiver)
-//     {
-//         console.log('reciever', receiver);
-//         let data = {
-//             ...chat,
-//             recieverId: receiver._id,
-//             recieverName: receiver.userName,
-//         };
-//         dispatch(currentchatactions.currentchat(data));
-
-
-
-function ChatSidebar(props) {
-	const userName = useSelector(
-		(state) => state.authentication.user.user.userName
+function ChatSidebar(props)
+{
+    const userName = useSelector(
+        (state) => state.authentication.user.user.userName
     );
     const userId = useSelector(
         (state) => state.authentication.user.user._id
     );
-	const channels = useSelector((state) => state.authentication.user);
-	console.log(channels);
 
-	useEffect(() => {
-		console.log(channels);
-	}, channels);
-	const directMessage = useSelector(
-		(state) => state.authentication.user.user.directMessage
-	);
-	const dispatch = useDispatch();
-	function currentChatChannel(chat) {
-		console.log(chat);
-		dispatch(currentchatactions.currentchat(chat));
-	}
-	function currentChatDirectMessage(chat, receiver) {
-		console.log('reciever', receiver);
-		let data = {
-			...chat,
-			recieverId: receiver._id,
-			recieverName: receiver.userName,
-		};
-		dispatch(currentchatactions.currentchat(data));
-	}
+    const channels = useSelector((state) => state.authentication.user);
+    console.log(channels);
+
+    useEffect(() =>
+    {
+        console.log(channels);
+    }, channels);
+    const directMessage = useSelector(
+        (state) => state.authentication.user.user.directMessage
+    );
+    const dispatch = useDispatch();
+    function currentChatChannel(chat)
+    {
+        console.log(chat);
+        dispatch(currentchatactions.currentchat(chat));
+    }
+    function currentChatDirectMessage(chat, receiver)
+    {
+        console.log('reciever', receiver);
+        let data = {
+            ...chat,
+            recieverId: receiver._id,
+            recieverName: receiver.userName,
+        };
+        dispatch(currentchatactions.currentchat(data));
+        chatService.updateStatus(data._id, userId, 'seen')
+            .then(() =>
+            {
+                console.log('update statis success [chatsidebarjsx]')
+                newMessage({
+                    type: data.type,
+                    chatId: data._id,
+                    recieverId: data.recieverId,
+                    recieverName: data.recieverName,
+                    senderId: userId,
+                    senderName: userName
+                })
+            })
+            .catch((err) =>
+            {
+                console.log(err);
+            })
+
+    }
 
 
-    //     chatService.updateStatus(data._id, userId, 'seen')
-    //         .then(() =>
-    //         {
-    //             console.log('update statis success [chatsidebarjsx]')
-    //             newMessage({
-    //                 type: data.type,
-    //                 chatId: data._id,
-    //                 recieverId: data.recieverId,
-    //                 recieverName: data.recieverName,
-    //                 senderId: userId,
-    //                 senderName: userName
-    //             })
-    //         })
-    //         .catch((err) =>
-    //         {
-    //             console.log(err);
-    //         })
-    // }
+
 
     return (
         <div className="sidebar">

@@ -34,7 +34,7 @@ const App =(props)=>{
                       type: userConstants.LOGIN_SUCCESS,
                       payload: {user: chat},
             });
-           
+            history.push('/chat');
                   // history.push(from);
               },
               (error) => {
@@ -45,11 +45,6 @@ const App =(props)=>{
       );
     }
   }, []);
-	useEffect(() => {
-    if(user){
-  history.push('/chat');
-    }
-  },)
   function failure(error) {
     return { type: userConstants.LOGIN_FAILURE, error };
 }

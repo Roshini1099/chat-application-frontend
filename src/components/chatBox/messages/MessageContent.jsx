@@ -2,63 +2,12 @@ import React, { Component, useState } from 'react';
 import { Comment, Popup } from 'semantic-ui-react';
 
 import { useDispatch, useSelector } from 'react-redux';
-import {
-	Menu,
-	Icon,
-	Modal,
-	Button,
-	Form,
-	Segment,
-	Input,
-} from 'semantic-ui-react';
-const MessageContent = () => {
-	const messages = useSelector((state) => state.currentChat);
-	const [isLoadingState, setLoadingState] = useState(false);
-	const [modalOpenState, setModalOpenState] = useState(false);
-	// const [modalOpen, setModalOpen] = useState(false);
-	const [channel, setChannel] = useState('');
-	const dispatch = useDispatch();
-	function onSubmit(e) {
-		e.preventDefault();
 
-		setLoadingState(true);
-		if (channel) {
-			setLoadingState(false);
-			// console.log(userId);
-			// dispatch(
-			// 	chatActions.createChannel(channel, userId, 'channel', user)
-			// );
-			setChannel('');
-			closeModal();
-		}
-	}
-	const openModal = () => {
-		console.log('in open modal');
-		setModalOpenState(true);
-	};
-	// const openModalJoin = () => {
-	// 	console.log('in open modal');
-	// 	setModalOpen(true);
-	// };
-	// const closeModalJoin = () => {
-	// 	console.log('in open modal');
-	// 	setModalOpen(false);
-	// };
-
-	//Modal close function
-	const closeModal = () => {
-		setModalOpenState(false);
-	};
-
-	//updating the channel state
-
-	const handleChange = (e) => {
-		const message = e.target.value;
-		setChannel(message);
-		console.log(channel);
-	};
+import { currentchatactions } from '../../../actions';
+const MessageContent = ({ data, userId }) =>
+{
 	return (
-		<div style={{ marginTop: '110px' }}>
+		<div style={{ marginTop: '30px' }}>
 			<Comment.Group style={{ marginLeft: '10px' }}>
 				{/* {messages.currentchat.messages.map((value, index) => ( */}
 				<Comment>
@@ -69,7 +18,7 @@ const MessageContent = () => {
 
 					<Comment.Content>
 						<Comment.Author as="a">
-							{/* {value.senderName} */}User
+							{data.senderName}
 						</Comment.Author>
 
 						<Comment.Metadata>
@@ -77,24 +26,17 @@ const MessageContent = () => {
 								{/* {new Date(value.timestamp)
 									.toString()
 									.substring(0, 21)} */}
-								2days ago
+								{new Date(data.timestamp)
+									.toString()
+									.substring(0, 21)}
 							</div>
+
 							<div>
-								<Popup
-									content="Delivered:8.10 AM
-                                            Seen: 8.30AM"
-									trigger={<Icon name="eye"></Icon>}
-									// trigger={
-									// 	<div>
-									// 		{value.seen && <p>seen</p>}
-									// 		{value.delivered && <p>delivered</p>}
-									// 	</div>
-									// }
-								/>
+								{data.delivered && data.senderId === userId && <Icon name="eye" style={data.seen ? { 'color': '#00BFFF' } : { 'color': '#696969' }}></Icon>}
 							</div>
 						</Comment.Metadata>
 						<Comment.Text>
-							{/* {value.text} */}Hey there!
+							{data.text}
 						</Comment.Text>
 						<Comment.Actions>
 							<Comment.Action onClick={openModal}>

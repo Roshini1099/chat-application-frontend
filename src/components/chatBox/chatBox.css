@@ -24,8 +24,8 @@
 .chatbox__body {
 	position: absolute;
 	top: 80px;
-	display: flex;
-	flex-flow: column-reverse;
+	/* display: flex;
+	flex-flow: column-reverse; */
 	bottom: 60px;
 	overflow-y: scroll;
 	width: 85.7%;

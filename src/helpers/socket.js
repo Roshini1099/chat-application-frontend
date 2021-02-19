@@ -8,10 +8,8 @@ const PATH = '';
 
 export const initialise = (userId)=>{
     console.log('initalise',userId)
-    let user = JSON.parse(localStorage.getItem('user'));
-    if(!user)
-        return;
-    if(socket===null || socket.connected==false)
+    const state= store.getState();
+    if(socket===null || socket.connected==false && state.authentication.user)
     {
         console.log('connecting the socket')
         socket= io('http://localhost:3333',{
@@ -21,17 +19,22 @@ export const initialise = (userId)=>{
             },
             reconnection: true,
           });
+
+
+        socket.on('connect',()=>{
+            console.log('socket connected',socket.id);
+        })
+        
+        socket.on('disconnect',()=>{
+            console.log('socket disconected')
+            socket=null;
+        })
+        networkError();
+        alllisteners();
+        joinRoom(state.authentication.user.user.channels);
+        
     }
-      console.log(socket)
-    socket.on('connect',()=>{
-        console.log('socket connected',socket.id);
-    })
-    socket.on('disconnect',()=>{
-        console.log('socket disconected')
-        socket=null;
-    })
-    networkError();
-    alllisteners();
+
 }
 
 const networkError= ()=>{
@@ -82,6 +85,11 @@ export const typing = (payload)=>{
 }
 const seen = ()=>{
     // socket.emit('seen',payload);
+}
+
+const joinRoom=(channels)=>{
+    console.log('triggered join room event')
+    socket.emit('joinroom',channels);
 }
 
 export const newMessage = (payload)=>{

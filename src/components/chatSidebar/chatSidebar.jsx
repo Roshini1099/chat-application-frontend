@@ -5,36 +5,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { currentchatactions } from '../../actions';
 import { chatService } from '../../services/chatservices'
 import Channels from './channels/Channel';
+import { newMessage } from '../../helpers/socket'
 
-function ChatSidebar(props) {
-	const userName = useSelector(
-		(state) => state.authentication.user.user.userName
-	);
-	const channels = useSelector((state) => state.authentication.user);
-	console.log(channels);
+function ChatSidebar(props)
+{
+    const userName = useSelector(
+        (state) => state.authentication.user.user.userName
+    );
+    const userId = useSelector(
+        (state) => state.authentication.user.user._id
+    );
 
-	useEffect(() => {
-		console.log(channels);
-	}, channels);
-	const directMessage = useSelector(
-		(state) => state.authentication.user.user.directMessage
-	);
-	const dispatch = useDispatch();
-	function currentChatChannel(chat) {
-		console.log(chat);
-		dispatch(currentchatactions.currentchat(chat));
-	}
-	function currentChatDirectMessage(chat, receiver) {
-		console.log('reciever', receiver);
-		let data = {
-			...chat,
-			recieverId: receiver._id,
-			recieverName: receiver.userName,
-		};
-		dispatch(currentchatactions.currentchat(data));
-	}
+    const channels = useSelector((state) => state.authentication.user);
+    console.log(channels);
 
-
+    useEffect(() =>
+    {
+        console.log(channels);
+    }, channels);
+    const directMessage = useSelector(
+        (state) => state.authentication.user.user.directMessage
+    );
+    const dispatch = useDispatch();
+    function currentChatChannel(chat)
+    {
+        console.log(chat);
+        dispatch(currentchatactions.currentchat(chat));
+    }
+    function currentChatDirectMessage(chat, receiver)
+    {
+        console.log('reciever', receiver);
+        let data = {
+            ...chat,
+            recieverId: receiver._id,
+            recieverName: receiver.userName,
+        };
+        dispatch(currentchatactions.currentchat(data));
         chatService.updateStatus(data._id, userId, 'seen')
             .then(() =>
             {
@@ -52,7 +58,11 @@ function ChatSidebar(props) {
             {
                 console.log(err);
             })
+
     }
+
+
+
 
     return (
         <div className="sidebar">

@@ -2,10 +2,63 @@ import React, { Component, useState } from 'react';
 import { Comment, Popup } from 'semantic-ui-react';
 
 import { useDispatch, useSelector } from 'react-redux';
-
+import {
+	Menu,
+	Icon,
+	Modal,
+	Button,
+	Form,
+	Segment,
+	Input,
+} from 'semantic-ui-react';
 import { currentchatactions } from '../../../actions';
 const MessageContent = ({ data, userId }) =>
 {
+	const messages = useSelector((state) => state.currentChat);
+	const [isLoadingState, setLoadingState] = useState(false);
+	const [modalOpenState, setModalOpenState] = useState(false);
+	// const [modalOpen, setModalOpen] = useState(false);
+	const [channel, setChannel] = useState('');
+	const dispatch = useDispatch();
+	function onSubmit(e) {
+		e.preventDefault();
+
+		setLoadingState(true);
+		if (channel) {
+			setLoadingState(false);
+			// console.log(userId);
+			// dispatch(
+			// 	chatActions.createChannel(channel, userId, 'channel', user)
+			// );
+			setChannel('');
+			closeModal();
+		}
+	}
+	const openModal = () => {
+		console.log('in open modal');
+		setModalOpenState(true);
+	};
+	// const openModalJoin = () => {
+	// 	console.log('in open modal');
+	// 	setModalOpen(true);
+	// };
+	// const closeModalJoin = () => {
+	// 	console.log('in open modal');
+	// 	setModalOpen(false);
+	// };
+
+	//Modal close function
+	const closeModal = () => {
+		setModalOpenState(false);
+	};
+
+	//updating the channel state
+
+	const handleChange = (e) => {
+		const message = e.target.value;
+		setChannel(message);
+		console.log(channel);
+	};
 	return (
 		<div style={{ marginTop: '30px' }}>
 			<Comment.Group style={{ marginLeft: '10px' }}>

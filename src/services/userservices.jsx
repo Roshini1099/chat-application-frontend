@@ -17,8 +17,8 @@ function login(emailId, password) {
 	};
 	return axios.post('/api/auth/login', body).then(async(response) => {
 		if (response.data.token) {
-			localStorage.setItem('user', JSON.stringify(response.data));
-			localStorage.setItem('token', JSON.stringify(response.data.token));
+			// localStorage.setItem('user', response.data);
+			localStorage.setItem('token', response.data.token);
 			localStorage.setItem('userId', response.data.user._id);
 			// let val = localStorage.getItem('userId')
 			let data = await userDetails(response.data.user._id)

@@ -10,6 +10,7 @@ import { alertActions } from './actions/index';
 import Chat from './container/Chat/chat';
 import 'semantic-ui-css/semantic.min.css'
 import axios from './helpers/axios';
+import authHeader from './helpers/authheader'
 import { userConstants } from './actionTypes';
 
 const App =(props)=>{
@@ -25,7 +26,7 @@ const App =(props)=>{
         userId
       };
       console.log(data)
-      axios.post('/api/user/details', data).then((response) => {
+      axios.post('/api/user/details', data,{ headers: authHeader() }).then((response) => {
         console.log(response.data)
         let chat = {user:response.data}
           // let data = await user.data;

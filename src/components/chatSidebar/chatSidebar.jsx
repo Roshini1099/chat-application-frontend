@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { currentchatactions } from '../../actions';
 import { chatService } from '../../services/chatservices'
 import Channels from './channels/Channel';
+import DirectMessage from './directMessage/directMessage'
 import { newMessage } from '../../helpers/socket'
 
 function ChatSidebar(props)
@@ -83,6 +84,7 @@ function ChatSidebar(props)
                 <div>
                     <h4>Direct Message</h4>
                 </div>
+                <DirectMessage/>
                 <div className="sidebar__channel__list">
                     {channels.user.directMessage.map((value, index) => (
                         <div

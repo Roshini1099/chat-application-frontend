@@ -35,7 +35,7 @@ const MessageContent = ({ data, userId }) =>
 							</div>
 						</Comment.Metadata>
 						<Comment.Text>
-							{data.text}
+							{data.isFile ? <a target='_blank' href={data.text}>{data.text}</a> : data.text}
 						</Comment.Text>
 						<Comment.Actions>
 							<Comment.Action>

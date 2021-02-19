@@ -34,12 +34,16 @@ function typing(data, userName)
 	});
 }
 
-function addChat(data, user)
+function addChat(data, formData, user)
 {
 	console.log('into the add chat');
 	return (dispatch) =>
 	{
-		axios.post('/api/message', data)
+		axios.post('/api/message', formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		})
 			.then(response =>
 			{
 				console.log(data)
@@ -57,7 +61,6 @@ function addChat(data, user)
 					recieverId: data.recieverId,
 					recieverName: data.recieverName
 				}
-
 				dispatch({
 					type: currentChatConstants.CHAT_SUCCESS,
 					payload: { data: data_ },
@@ -70,6 +73,8 @@ function addChat(data, user)
 			})
 	}
 }
+
+
 
 function fetchChat(payload, user, currentChatId)
 {

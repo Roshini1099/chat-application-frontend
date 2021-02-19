@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import './chatSidebar.css';
+import { Image } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentchatactions } from '../../actions';
 import { chatService } from '../../services/chatservices'
@@ -95,7 +96,8 @@ function ChatSidebar(props)
                                 )
                             }
                         >
-                            <div className="profile"></div>
+                         <Image src="https://react.semantic-ui.com/images/avatar/small/steve.jpg" style={{width:'20px',height:'20px'}}/>
+                            {/* <div className="profile"></div> */}
                             <h5>{value.receiverId.userName}</h5>
                         </div>
                     ))}

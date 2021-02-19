@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from 'react';
 import SendIcon from '@material-ui/icons/Send';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
 import './chatBox.css';
 import axios from '../../helpers/axios';
 import { typing } from '../../helpers/socket';
@@ -11,8 +10,7 @@ import { currentChatConstants, chatConstants } from '../../actionTypes';
 import { currentchatactions } from '../../actions/currentchatactions';
 import MessageContent from './messages/MessageContent';
 
-function ChatBox(props)
-{
+function ChatBox(props) {
 	const [message, setMessage] = useState('');
 	const [file, setFile] = useState(null);
 	const [index, setIndex] = useState(0);
@@ -24,26 +22,21 @@ function ChatBox(props)
 	const user = useSelector((state) => state.authentication.user);
 	const messages = useSelector((state) => state.currentChat);
 
-	const onChangeMessage = (e) =>
-	{
+	const onChangeMessage = (e) => {
 		const message = e.target.value;
 		setMessage(message);
-
 	};
 
-	const fileSelectedHandler = (e) =>
-	{
+	const fileSelectedHandler = (e) => {
 		let file = e.target.files[0];
-		console.log(e.target.files[0])
+		console.log(e.target.files[0]);
 		let name = e.target.files[0].name;
 
 		setMessage(name);
 		setFile(file);
+	};
 
-	}
-
-	async function sendMessage(e)
-	{
+	async function sendMessage(e) {
 		e.preventDefault();
 		const data = {
 			text: message,
@@ -54,7 +47,7 @@ function ChatBox(props)
 			type: 'Create',
 			index,
 			senderName,
-			isFile: false
+			isFile: false,
 		};
 
 		if (message === '') return;
@@ -64,11 +57,8 @@ function ChatBox(props)
 		}
 		formData.append('data', JSON.stringify(data));
 		if (file) {
-			formData.append(
-				"attachment",
-				file
-			);
-			console.log(file)
+			formData.append('attachment', file);
+			console.log(file);
 		}
 		dispatch(currentchatactions.addChat(data, formData, user));
 		setMessage('');
@@ -100,14 +90,12 @@ function ChatBox(props)
 	// 		}
 	// 	}
 	// }
-	const removeFileHandler = () =>
-	{
+	const removeFileHandler = () => {
 		setFile(null);
 		setMessage('');
-	}
+	};
 
-	const typingHandler = () =>
-	{
+	const typingHandler = () => {
 		let payload = {
 			type: messages.currentchat.type,
 			isTyping: true,
@@ -117,15 +105,13 @@ function ChatBox(props)
 		};
 		typing(payload);
 	};
-	function updateScroll()
-	{
-		var element = document.getElementById("chatDiv");
+	function updateScroll() {
+		var element = document.getElementById('chatDiv');
 		element.scrollTop = element.scrollHeight;
 	}
-	useEffect(() =>
-	{
+	useEffect(() => {
 		updateScroll();
-	})
+	});
 	if (messages === null) {
 		return null;
 	}
@@ -136,8 +122,8 @@ function ChatBox(props)
 					{messages.currentchat.type === 'directMessage' ? (
 						<h2>{messages.currentchat.recieverName}</h2>
 					) : (
-							<h2>{messages.currentchat.chatName}</h2>
-						)}
+						<h2>{messages.currentchat.chatName}</h2>
+					)}
 					{/* replace class online with lastseen. */}
 					<div className="online"></div>
 				</div>
@@ -148,15 +134,14 @@ function ChatBox(props)
 			</div>
 			<div className="chatbox__body" id="chatDiv">
 				{messages.currentchat.messages.map((value, key) => (
-					<MessageContent key={key} data={value} userId={senderId} index={key} />
+					<MessageContent
+						key={key}
+						data={value}
+						userId={senderId}
+						index={key}
+					/>
 				))}
 			</div>
-
-
-
-
-
-
 
 			<div className="chatbox__footer">
 				<div className="chatbox__footer__body">
@@ -170,26 +155,30 @@ function ChatBox(props)
 							onKeyPress={typingHandler}
 						/>
 					</div>
-					{file && <div className="chatbox__cancel" onClick={removeFileHandler}>
-						x
-						</div>}
+					{file && (
+						<div
+							className="chatbox__cancel"
+							onClick={removeFileHandler}
+						>
+							x
+						</div>
+					)}
 					<div>
 						<label>
 							<AttachFileIcon />
 							<input
 								style={{ display: 'none' }}
-								type={"file"}
+								type={'file'}
 								onChange={fileSelectedHandler}
 							/>
 						</label>
-
 					</div>
 					<div onClick={sendMessage}>
 						<SendIcon style={{ color: 'blue' }} />
 					</div>
 				</div>
 			</div>
-		</div >
+		</div>
 	);
 }
 

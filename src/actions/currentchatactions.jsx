@@ -1,17 +1,17 @@
-
 import { currentChatConstants, userConstants } from '../actionTypes';
-import axios from '../helpers/axios'
+import axios from '../helpers/axios';
 import authHeader from '../helpers/authheader';
-import { newMessage } from '../helpers/socket'
-import { chatService } from './../services/chatservices'
+import { newMessage } from '../helpers/socket';
+import { chatService } from './../services/chatservices';
 export const currentchatactions = {
-	currentchat, typing, fetchChat, addChat
+	currentchat,
+	typing,
+	fetchChat,
+	addChat,
 };
-function currentchat(data)
-{
-	console.log(data)
-	return (dispatch) =>
-	{
+function currentchat(data) {
+	console.log(data);
+	return (dispatch) => {
 		try {
 			dispatch({
 				type: currentChatConstants.CHAT_SUCCESS,
@@ -26,44 +26,40 @@ function currentchat(data)
 	};
 }
 
-function typing(data, userName)
-{
-
-	return ({
+function typing(data, userName) {
+	return {
 		type: currentChatConstants.TYPING,
-		payload: { typing: data, userName }
-	});
+		payload: { typing: data, userName },
+	};
 }
 
-function addChat(data, formData, user)
-{
+function addChat(data, formData, user) {
 	console.log('into the add chat');
 
-	return (dispatch) =>
-	{
-		axios.post('/api/message', formData, {
-			headers: {
-				'Content-Type': 'multipart/form-data',
-				...authHeader()
-			}
-		})
-			.then(response =>
-			{
-				console.log(data)
+	return (dispatch) => {
+		axios
+			.post('/api/message', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					...authHeader(),
+				},
+			})
+			.then((response) => {
+				console.log(data);
 				newMessage({
 					type: response.data.type,
 					chatId: response.data._id,
 					recieverId: data.recieverId,
 					recieverName: data.recieverName,
 					senderId: data.senderId,
-					senderName: data.senderName
-				})
+					senderName: data.senderName,
+				});
 
 				let data_ = {
 					...response.data,
 					recieverId: data.recieverId,
-					recieverName: data.recieverName
-				}
+					recieverName: data.recieverName,
+				};
 				dispatch({
 					type: currentChatConstants.CHAT_SUCCESS,
 					payload: { data: data_ },
@@ -71,26 +67,26 @@ function addChat(data, formData, user)
 				let updatedUser = currentMessage(response.data, user);
 				dispatch({
 					type: userConstants.LOGIN_SUCCESS,
-					payload: { user: updatedUser }
-				})
-			})
-	}
+					payload: { user: updatedUser },
+				});
+			});
+	};
 }
 
-
-
-function fetchChat(payload, user, currentChatId)
-{
-	return (dispatch) =>
-	{
-		axios.post('/api/getChat', { chatId: payload.chatId }, { headers: authHeader() })
-			.then(response =>
-			{
+function fetchChat(payload, user, currentChatId) {
+	return (dispatch) => {
+		axios
+			.post(
+				'/api/getChat',
+				{ chatId: payload.chatId },
+				{ headers: authHeader() }
+			)
+			.then((response) => {
 				let data = {
 					...response.data,
 					recieverId: payload.senderId,
-					recieverName: payload.senderName
-				}
+					recieverName: payload.senderName,
+				};
 				if (response.data._id == currentChatId) {
 					dispatch({
 						type: currentChatConstants.CHAT_SUCCESS,
@@ -98,57 +94,63 @@ function fetchChat(payload, user, currentChatId)
 					});
 
 					let length = response.data.messages.length;
-					if (response.data.messages[length - 1].senderId === data.recieverId && (response.data.messages[length - 1].seen === false) && response.data.type === 'directMessage') {
-						chatService.updateStatus(response.data._id, user.user._id, 'seen')
-							.then(() =>
-							{
+					if (
+						response.data.messages[length - 1].senderId ===
+							data.recieverId &&
+						response.data.messages[length - 1].seen === false &&
+						response.data.type === 'directMessage'
+					) {
+						chatService
+							.updateStatus(
+								response.data._id,
+								user.user._id,
+								'seen'
+							)
+							.then(() => {
 								newMessage({
 									type: 'directMessage',
 									chatId: response.data._id,
 									recieverId: data.recieverId,
 									recieverName: data.recieverName,
 									senderId: user.user._id,
-									senderName: user.user.userName
-								})
-							}).catch(err =>
-							{
-								console.log(err);
+									senderName: user.user.userName,
+								});
 							})
+							.catch((err) => {
+								console.log(err);
+							});
 					}
-
 				}
 				let updatedUser = currentMessage(response.data, user);
 				dispatch({
 					type: userConstants.LOGIN_SUCCESS,
-					payload: { user: updatedUser }
-				})
-			})
-	}
+					payload: { user: updatedUser },
+				});
+			});
+	};
 }
-function currentMessage(data, user)
-{
+function currentMessage(data, user) {
 	let type = data.type;
-	if (type === "directMessage") {
-		let directMessage = user.user.directMessage
+	if (type === 'directMessage') {
+		let directMessage = user.user.directMessage;
 		for (var i = 0; i < directMessage.length; i++) {
 			if (directMessage[i].chatId._id === data._id) {
 				directMessage[i].chatId = {
 					...directMessage[i].chatId,
-					...data
-				}
+					...data,
+				};
 			}
 		}
 		user.user.directMessage = directMessage;
 		return user;
-	}
-	else {
-		let channels = user.user.channels
+	} else {
+		let channels = user.user.channels;
 		for (var i = 0; i < channels.length; i++) {
 			if (channels[i].chatId._id === data._id) {
 				channels[i].chatId = {
 					...channels[i].chatId,
-					...data
-				}
+					...data,
+				};
 			}
 		}
 		user.user.channels = channels;

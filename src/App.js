@@ -62,7 +62,8 @@ const App =(props)=>{
       <Switch>
         <Route exact path ="/" component={Register}/>
         <Route exact path ="/login" component={Login}/>
-        <Route exact path ="/chat" component={Chat}/>
+        <Route exact path ="/chat" render={(props) => (
+                        <Chat {...props} user= {user} />)}/>
        
       </Switch>
 

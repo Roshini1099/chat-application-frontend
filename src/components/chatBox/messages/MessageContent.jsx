@@ -1,7 +1,8 @@
 import React, { Component, useState } from 'react';
 import { Comment, Popup } from 'semantic-ui-react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
+import
+{
 	Menu,
 	Icon,
 	Modal,
@@ -12,7 +13,8 @@ import {
 	Confirm,
 } from 'semantic-ui-react';
 import { currentchatactions } from '../../../actions';
-const MessageContent = ({ data, userId, index }) => {
+const MessageContent = ({ data, userId, index }) =>
+{
 	const messages = useSelector((state) => state.currentChat);
 	const [confirm, setConfirm] = useState(false);
 	const senderId = useSelector((state) => state.authentication.user.user._id);
@@ -23,13 +25,16 @@ const MessageContent = ({ data, userId, index }) => {
 	const [isLoadingState, setLoadingState] = useState(false);
 	const [modalOpenState, setModalOpenState] = useState(false);
 	const [msg, setMsg] = useState(data.text);
-	const confirmOpen = () => {
+	const confirmOpen = () =>
+	{
 		setConfirm(true);
 	};
-	const confirmClose = () => {
+	const confirmClose = () =>
+	{
 		setConfirm(false);
 	};
-	const confirmClosedelete = () => {
+	const confirmClosedelete = () =>
+	{
 		setConfirm(false);
 		deleteMsg();
 	};
@@ -41,7 +46,8 @@ const MessageContent = ({ data, userId, index }) => {
 	// (state) => state.authentication.user.user.userName
 	// );
 	const dispatch = useDispatch();
-	function onSubmit(e) {
+	function onSubmit(e)
+	{
 		e.preventDefault();
 		setLoadingState(true);
 		if (message) {
@@ -59,14 +65,17 @@ const MessageContent = ({ data, userId, index }) => {
 			// console.log(key);
 			console.log('chatbox', messages);
 			if (message === '') return;
-			dispatch(currentchatactions.addChat(data, user));
+			let formData = new FormData();
+			formData.append('data', JSON.stringify(data));
+			dispatch(currentchatactions.addChat(data, formData, user));
 			setMessage('');
 			setMessage(message);
 			console.log(message);
 			closeModal();
 		}
 	}
-	const openModal = () => {
+	const openModal = () =>
+	{
 		console.log('in open modal');
 		setModalOpenState(true);
 	};
@@ -79,16 +88,19 @@ const MessageContent = ({ data, userId, index }) => {
 	// setModalOpen(false);
 	// };
 	//Modal close function
-	const closeModal = () => {
+	const closeModal = () =>
+	{
 		setModalOpenState(false);
 	};
 	//updating the channel state
-	const handleChange = (e) => {
+	const handleChange = (e) =>
+	{
 		const message = e.target.value;
 		setMessage(message);
 		console.log(message);
 	};
-	async function deleteMsg() {
+	async function deleteMsg()
+	{
 		const data = {
 			text: msg,
 			recieverId: messages.currentchat.recieverId,
@@ -101,7 +113,9 @@ const MessageContent = ({ data, userId, index }) => {
 		};
 
 		console.log('chatbox', data);
-		dispatch(currentchatactions.addChat(data, user));
+		let formData = new FormData();
+		formData.append('data', JSON.stringify(data));
+		dispatch(currentchatactions.addChat(data, formData, user));
 	}
 	return (
 		<div style={{ marginTop: '30px' }}>
@@ -146,8 +160,8 @@ const MessageContent = ({ data, userId, index }) => {
 										{data.text}
 									</a>
 								) : (
-									data.text
-								)}
+										data.text
+									)}
 							</Comment.Text>
 							{data.senderId === userId ? (
 								<Comment.Actions>

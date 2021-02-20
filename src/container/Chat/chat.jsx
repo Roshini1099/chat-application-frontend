@@ -3,6 +3,7 @@ import ChatSidebar from '../../components/chatSidebar/chatSidebar';
 import { useSelector } from 'react-redux';
 import ChatBox from '../../components/chatBox/chatBox';
 import { initialise } from '../../helpers/socket';
+import { Privateroute } from '../../hoc/Logout'
 import './chat.css';
 import MessageContent from '../../components/chatBox/messages/MessageContent';
 
@@ -30,4 +31,4 @@ const Chat = () =>
 		// </div>
 	);
 };
-export default Chat;
+export default Privateroute(Chat);
